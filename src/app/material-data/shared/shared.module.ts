@@ -1,14 +1,32 @@
 import {NgModule} from '@angular/core';
-import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatGridListModule,
+  MatInputModule
+} from '@angular/material';
 
 @NgModule({
   imports: [
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class SharedModule {
