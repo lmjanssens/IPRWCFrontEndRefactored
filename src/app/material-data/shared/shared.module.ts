@@ -6,7 +6,7 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatGridListModule,
-  MatInputModule
+  MatInputModule, MatSidenavModule, MatToolbarModule
 } from '@angular/material';
 
 @NgModule({
@@ -17,7 +17,9 @@ import {
     MatGridListModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule,
+    MatSidenavModule
   ],
   exports: [
     MatButtonModule,
@@ -26,7 +28,9 @@ import {
     MatGridListModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule,
+    MatSidenavModule
   ]
 })
 export class SharedModule {
