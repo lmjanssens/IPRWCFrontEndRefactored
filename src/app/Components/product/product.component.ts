@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Product} from './product.model';
 
 @Component({
@@ -7,10 +7,10 @@ import {Product} from './product.model';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  products: Product[] = [
+  @Input() products: Product[] = [
     new Product(14.99, 'Met deze gloednieuwe Texas Instruments ' +
       'wetenschappelijke rekenmachine staat u altijd klaar voor iedere berekening!',
-      '../../../src/assets/img/rekenmachine.jpg')
+      '../../../src/assets/img/rekenmachine.jpg', 'Texas Instruments Rekenmachine')
   ];
 
   constructor() {

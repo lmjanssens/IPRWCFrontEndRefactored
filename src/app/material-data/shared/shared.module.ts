@@ -6,7 +6,9 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatGridListModule,
-  MatInputModule, MatSidenavModule, MatToolbarModule
+  MatInputModule,
+  MatSidenavModule,
+  MatToolbarModule
 } from '@angular/material';
 
 @NgModule({
