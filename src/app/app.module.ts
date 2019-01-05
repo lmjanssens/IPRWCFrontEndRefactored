@@ -10,9 +10,19 @@ import {ProductComponent} from './Components/product/product.component';
 import {ErrorComponent} from './Components/error/error.component';
 import {AppRoutingModule} from './app-routing.module';
 import {LayoutModule} from '@angular/cdk/layout';
-import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
+import {
+  MatToolbarModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatListModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule
+} from '@angular/material';
 import {ProductPageComponent} from './Components/product/product-page/product-page.component';
 import {ProductPreviewComponent} from './Components/product/product-preview/product-preview.component';
+import {ShoppingCartComponent} from './Components/shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +32,8 @@ import {ProductPreviewComponent} from './Components/product/product-preview/prod
     ProductComponent,
     ErrorComponent,
     ProductPageComponent,
-    ProductPreviewComponent
+    ProductPreviewComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +45,10 @@ import {ProductPreviewComponent} from './Components/product/product-preview/prod
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

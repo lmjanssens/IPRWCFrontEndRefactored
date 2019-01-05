@@ -6,8 +6,8 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatGridListModule,
-  MatInputModule,
-  MatSidenavModule,
+  MatInputModule, MatPaginatorModule,
+  MatSidenavModule, MatSortModule, MatTableModule,
   MatToolbarModule
 } from '@angular/material';
 
@@ -21,7 +21,10 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   exports: [
     MatButtonModule,
@@ -32,7 +35,10 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class SharedModule {
