@@ -23,7 +23,6 @@ import {
 import {ProductPageComponent} from './Components/product/product-page/product-page.component';
 import {ProductPreviewComponent} from './Components/product/product-preview/product-preview.component';
 import {ShoppingCartComponent} from './Components/shopping-cart/shopping-cart.component';
-import {InfoComponent} from './Components/info/info.component';
 import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
@@ -36,7 +35,6 @@ import {HttpClientModule} from '@angular/common/http';
     ProductPageComponent,
     ProductPreviewComponent,
     ShoppingCartComponent,
-    InfoComponent
   ],
   imports: [
     BrowserModule,

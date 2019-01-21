@@ -1,10 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Product} from './product.model';
+import {ShoppingCartComponent} from '../shopping-cart/shopping-cart.component';
+import {ShoppingCartService} from '../../services/shopping-cart.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css'],
+  providers: [ShoppingCartComponent]
 })
 export class ProductComponent implements OnInit {
   products: Product[] = [
@@ -15,10 +19,18 @@ export class ProductComponent implements OnInit {
     new Product(13, 'Dit is een testrun',
       'https://images.agoramedia.com/everydayhealth/cms/What-Makes-Good-Cholesterol-Go-Bad-article.jpg', 'ei')
   ];
+  @Output() productAdded = new EventEmitter<Product>();
+  toShoppingCartObservable: Observable<Product[]>;
 
-  constructor() {
+  constructor(private shoppingCartService: ShoppingCartService) {
   }
 
   ngOnInit() {
+  }
+
+  onAddToShoppingCart(product: Product) {
+    // this.productAdded.emit(product);
+    // this.shoppingCartComponent.onProductAdded(product);
+    this.shoppingCartService.addToCart(product);
   }
 }
