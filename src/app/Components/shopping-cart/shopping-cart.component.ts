@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Product} from '../product/product.model';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 
 @Component({
@@ -9,9 +9,10 @@ import {ShoppingCartService} from '../../services/shopping-cart.service';
   styleUrls: ['./shopping-cart.component.css'],
 })
 export class ShoppingCartComponent implements OnInit {
-  displayedColumns = ['price', 'name'];
+  displayedColumns = ['name', 'price'];
   shoppingCart: Product[] = [];
   shoppingCartObservable: Observable<Product[]> = of([]);
+  totalCost: number;
 
   constructor(private shoppingCartService: ShoppingCartService) {
     this.shoppingCartObservable = this.shoppingCartService.getItems();
@@ -26,4 +27,15 @@ export class ShoppingCartComponent implements OnInit {
     console.log(this.shoppingCart);
   }
 
+  getTotalCost() {
+    this.totalCost = 0;
+    for (const product of this.shoppingCart) {
+      this.totalCost += product.price;
+    }
+    return this.totalCost;
+  }
+
+  shoppingCartFilled() {
+    return this.shoppingCart.length > 0;
+  }
 }

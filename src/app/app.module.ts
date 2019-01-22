@@ -11,19 +11,22 @@ import {ErrorComponent} from './Components/error/error.component';
 import {AppRoutingModule} from './app-routing.module';
 import {LayoutModule} from '@angular/cdk/layout';
 import {
-  MatToolbarModule,
   MatButtonModule,
-  MatSidenavModule,
   MatIconModule,
   MatListModule,
-  MatTableModule,
   MatPaginatorModule,
-  MatSortModule
+  MatSidenavModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatToolbarModule
 } from '@angular/material';
 import {ProductPageComponent} from './Components/product/product-page/product-page.component';
 import {ProductPreviewComponent} from './Components/product/product-preview/product-preview.component';
 import {ShoppingCartComponent} from './Components/shopping-cart/shopping-cart.component';
 import {HttpClientModule} from '@angular/common/http';
+import {CheckoutComponent} from './Components/checkout/checkout.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,7 @@ import {HttpClientModule} from '@angular/common/http';
     ProductPageComponent,
     ProductPreviewComponent,
     ShoppingCartComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,9 @@ import {HttpClientModule} from '@angular/common/http';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    HttpClientModule
+    HttpClientModule,
+    MatStepperModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
