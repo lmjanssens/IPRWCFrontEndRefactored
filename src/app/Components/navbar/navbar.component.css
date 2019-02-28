@@ -1,5 +1,9 @@
 .sidenav-container {
-  height: 100%;
+  height: 10%;
+  /*
+  Zou eigenlijk 100% moeten zijn,
+  de mobile sidenav is broken
+  */
 }
 
 .sidenav {

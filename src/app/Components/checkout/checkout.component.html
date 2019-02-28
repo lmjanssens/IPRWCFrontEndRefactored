@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+<mat-horizontal-stepper style="width: 80%; margin: auto auto" linear="true">
+  <mat-step [stepControl]="personalDetails">
+    <form [formGroup]="personalDetails">
+      <ng-template matStepLabel>Vul uw persoonsgegevens in</ng-template>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Voornaam" formControlName="firstName" required>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Tussenvoegsel">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Achternaam" formControlName="lastName" required>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Leeftijd" formControlName="age" required>
+      </mat-form-field>
+      <button mat-button matStepperNext>Volgende</button>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="addressDetails">
+    <form [formGroup]="addressDetails">
+      <ng-template matStepLabel>Vul uw adresgegevens in</ng-template>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Plaats" formControlName="town" required>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Straat + huisnummer" formControlName="street" required>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Postcode" formControlName="postalCode" required>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Land" formControlName="country" required>
+      </mat-form-field>
+      <button mat-button matStepperPrevious>Terug</button>
+      <button mat-button matStepperNext>Volgende</button>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Klaar!</ng-template>
+    Bedankt voor uw bestelling!
+    <button mat-button matStepperPrevious>Terug</button>
+  </mat-step>
+</mat-horizontal-stepper>

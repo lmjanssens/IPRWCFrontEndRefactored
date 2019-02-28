@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {LoginComponent} from './Components/login/login.component';
 import {SharedModule} from './material-data/shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -10,7 +10,24 @@ import {ProductComponent} from './Components/product/product.component';
 import {ErrorComponent} from './Components/error/error.component';
 import {AppRoutingModule} from './app-routing.module';
 import {LayoutModule} from '@angular/cdk/layout';
-import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatListModule,
+  MatPaginatorModule,
+  MatSidenavModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatToolbarModule
+} from '@angular/material';
+import {ProductPageComponent} from './Components/product/product-page/product-page.component';
+import {ProductPreviewComponent} from './Components/product/product-preview/product-preview.component';
+import {ShoppingCartComponent} from './Components/shopping-cart/shopping-cart.component';
+import {HttpClientModule} from '@angular/common/http';
+import {CheckoutComponent} from './Components/checkout/checkout.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +35,11 @@ import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatL
     LoginComponent,
     NavbarComponent,
     ProductComponent,
-    ErrorComponent
+    ErrorComponent,
+    ProductPageComponent,
+    ProductPreviewComponent,
+    ShoppingCartComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,9 +51,17 @@ import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatL
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    HttpClientModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
