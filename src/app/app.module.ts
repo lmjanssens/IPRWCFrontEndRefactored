@@ -16,6 +16,7 @@ import {
   MatListModule,
   MatPaginatorModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatSortModule,
   MatStepperModule,
   MatTableModule,
@@ -56,7 +57,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatSortModule,
     HttpClientModule,
     MatStepperModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
