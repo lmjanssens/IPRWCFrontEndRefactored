@@ -1,4 +1,29 @@
-.card-container {
-  justify-content: space-between;
-  width: 30%;
+.login {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.app-name {
+  margin: 8px 0;
+}
+
+.app-logo {
+  margin: 8px 0;
+}
+
+.error-card {
+  margin: -52px 8px 0 8px;
+  opacity: 0;
+  transition: opacity 250ms ease, transform 150ms ease;
+  pointer-events: none;
+  height: 20px;
+  z-index: 500;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(100%);
 }

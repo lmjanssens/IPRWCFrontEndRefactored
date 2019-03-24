@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from '../product.model';
 import {ShoppingCartComponent} from '../../shopping-cart/shopping-cart.component';
+import {ProductService} from '../../../services/product.service';
 
 @Component({
   selector: 'app-product-preview',
@@ -9,24 +10,17 @@ import {ShoppingCartComponent} from '../../shopping-cart/shopping-cart.component
   providers: [ShoppingCartComponent]
 })
 export class ProductPreviewComponent implements OnInit {
-  products: Product[] = [
-    new Product(14.99, 'Met deze gloednieuwe Texas Instruments ' +
-      'wetenschappelijke rekenmachine staat u altijd klaar voor iedere berekening!',
-      'https://static.webshopapp.com/shops/224579/files/178375874/200x200x2/texas-instruments-ti-nspire-cx-grafische-rekenmach.jpg',
-      'Texas Instruments Rekenmachine')
-  ];
-  @Output() productAdded = new EventEmitter<Product>();
+  @Input() products: Product[];
+  @Output() productAdded: EventEmitter<Product> = new EventEmitter();
 
-  constructor(private shoppingCartComponent: ShoppingCartComponent) {
+  constructor(private shoppingCartComponent: ShoppingCartComponent, private productService: ProductService) {
   }
 
   ngOnInit() {
   }
 
   onAddToShoppingCart(product: Product) {
-    alert('Product toegevoegd!');
     this.productAdded.emit(product);
     this.shoppingCartComponent.onProductAdded(product);
-    // return new Product(product.price, product.description, product.imagePath, product.name);
   }
 }

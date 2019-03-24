@@ -27,7 +27,7 @@ import {ProductPreviewComponent} from './Components/product/product-preview/prod
 import {ShoppingCartComponent} from './Components/shopping-cart/shopping-cart.component';
 import {HttpClientModule} from '@angular/common/http';
 import {CheckoutComponent} from './Components/checkout/checkout.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     HttpClientModule,
     MatStepperModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

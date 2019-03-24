@@ -1,26 +1,58 @@
-<div>
-  <mat-grid-list [cols]="1" rowHeight="500px">
-    <mat-grid-tile>
-      <mat-card class="card-container">
-        <mat-card-title>Log in</mat-card-title>
-        <mat-card-content>
-          <mat-grid-list [cols]="1" rowHeight="75px">
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <mat-form-field>
-                <input matInput placeholder="Username">
-              </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <mat-form-field>
-                <input matInput placeholder="Password">
-              </mat-form-field>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button color="primary" (click)="loginButtonClicked()">Log in</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+<!--<div>-->
+  <!--<mat-grid-list [cols]="1" rowHeight="500px">-->
+    <!--<mat-grid-tile>-->
+      <!--<mat-card class="card-container">-->
+        <!--<mat-card-title>Log in</mat-card-title>-->
+        <!--<mat-card-content>-->
+          <!--<mat-grid-list [cols]="1" rowHeight="75px">-->
+            <!--<mat-grid-tile [colspan]="1" [rowspan]="1">-->
+              <!--<mat-form-field>-->
+                <!--<input matInput placeholder="Username">-->
+              <!--</mat-form-field>-->
+            <!--</mat-grid-tile>-->
+            <!--<mat-grid-tile [colspan]="1" [rowspan]="1">-->
+              <!--<mat-form-field>-->
+                <!--<input matInput placeholder="Password">-->
+              <!--</mat-form-field>-->
+            <!--</mat-grid-tile>-->
+          <!--</mat-grid-list>-->
+        <!--</mat-card-content>-->
+        <!--<mat-card-actions>-->
+          <!--<button mat-button color="primary" (click)="loginButtonClicked()">Log in</button>-->
+        <!--</mat-card-actions>-->
+      <!--</mat-card>-->
+    <!--</mat-grid-tile>-->
+  <!--</mat-grid-list>-->
+<!--</div>-->
+
+<form class="login" (submit)="loginButtonClicked()">
+  <h1 class="mat-display-1 app-name">Creativity</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Gebruikersnaam</mat-label>
+    <input matInput
+           placeholder="Gebruikersnaam"
+           [(ngModel)]="username"
+           autocomplete="username"
+           name="username"
+    />
+    <mat-icon matSuffix>face</mat-icon>
+    <!--<mat-hint>Hint</mat-hint>-->
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Wachtwoord</mat-label>
+    <input matInput
+           placeholder="Gebruikersnaam"
+           type="password"
+           [(ngModel)]="password"
+           autocomplete="password"
+           name="password"
+    />
+    <mat-icon matSuffix>lock</mat-icon>
+  </mat-form-field>
+
+  <mat-card [class.visible]="showError" class="app-error-bg error-card">{{error}}</mat-card>
+
+  <button mat-raised-button color="accent" [disabled]="showError">Inloggen</button>
+</form>
+

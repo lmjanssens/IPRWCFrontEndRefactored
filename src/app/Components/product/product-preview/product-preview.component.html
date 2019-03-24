@@ -1,15 +1,19 @@
-<mat-card *ngFor="let product of products">
-  <mat-card-header>
-    <mat-card-title>{{product.name}}</mat-card-title>
-    <mat-card-subtitle></mat-card-subtitle>
-  </mat-card-header>
-  <img alt="Product" mat-card-image src="{{product.imagePath}}" style="width:200px;height:200px; margin: 10px auto;">
-  <mat-card-content>
-    {{product.description}}
-  </mat-card-content>
-  <mat-card-actions>
-    <button (click)="onAddToShoppingCart()" color="primary" mat-button>Aan winkelmand toevoegen</button>
-    <button color="primary" mat-button>Details bekijken</button>
-  </mat-card-actions>
-</mat-card>
+<mat-grid-list [cols]="2" rowHeight="2:1">
+  <mat-grid-tile *ngFor="let product of products">
+    <mat-card class="product-card">
+      <mat-card-header>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image src="{{product.imagePath}}" alt="Product"
+           style="max-width:200px; max-height:200px; margin: 10px auto;">
+      <mat-card-content>
+        {{product.description}}
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="onAddToShoppingCart(product)">Aan winkelmand toevoegen</button>
+        <button mat-button color="primary">Details bekijken</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
 

@@ -1,13 +1,8 @@
-export class Product {
-  public price: number;
-  public description: string;
-  public imagePath: string;
-  public name: string;
+import {BaseModel} from '../../base.model';
 
-  constructor(price: number, description: string, imagePath: string, name: string) {
-    this.price = price;
-    this.description = description;
-    this.imagePath = imagePath;
-    this.name = name;
-  }
+export interface Product extends BaseModel {
+  price: number;
+  description: string;
+  imagePath: string;
+  name: string;
 }
