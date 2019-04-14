@@ -1,8 +1,14 @@
-.img-style {
-  width: 200px;
-  height: 200px;
-  margin-left: auto;
-  margin-right: auto;
+/*.img-style {*/
+  /*max-width: 200px;*/
+  /*max-height: 200px;*/
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+/*}*/
+
+.flex-me {
+  display: inline-flex;
+  flex-flow: row wrap;
+  background: grey;
 }
 
 .product-card {

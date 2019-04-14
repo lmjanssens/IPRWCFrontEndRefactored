@@ -39,6 +39,10 @@ export abstract class ApiService<K, T extends BaseModel> {
     return this.request('GET', this.PATH);
   }
 
+  public add(entity: T): Observable<T> {
+    return this.request('POST', this.PATH, entity);
+  }
+
   protected request<R = T>(method: RequestMethod, path: string, body?: R): Observable<R> {
     if ((method === 'POST' || method === 'PUT') && !body) {
       throw new Error('Parameter body is required when using POST or PUT');
