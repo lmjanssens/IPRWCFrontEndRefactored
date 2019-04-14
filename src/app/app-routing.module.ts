@@ -5,13 +5,14 @@ import {ProductComponent} from './Components/product/product.component';
 import {ErrorComponent} from './Components/error/error.component';
 import {ShoppingCartComponent} from './Components/shopping-cart/shopping-cart.component';
 import {CheckoutComponent} from './Components/checkout/checkout.component';
+import {AuthGuardService} from './services/auth-guard.service';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
-  {path: 'producten', component: ProductComponent},
-  {path: 'winkelwagen', component: ShoppingCartComponent},
+  {path: 'producten', component: ProductComponent, canActivate: [AuthGuardService]},
+  {path: 'winkelwagen', component: ShoppingCartComponent, canActivate: [AuthGuardService]},
   {path: 'niet-gevonden', component: ErrorComponent, data: {message: 'Pagina niet gevonden.'}},
-  {path: 'afrekenen', component: CheckoutComponent},
+  {path: 'afrekenen', component: CheckoutComponent, canActivate: [AuthGuardService]},
   {path: '**', redirectTo: '/niet-gevonden'}
 ];
 

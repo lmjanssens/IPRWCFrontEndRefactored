@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Consumer} from './consumer.model';
+import {ConsumerService} from '../../services/consumer.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-checkout',
@@ -7,23 +10,20 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  personalDetails: FormGroup;
-  addressDetails: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private consumerService: ConsumerService, private snackbar: MatSnackBar) {
   }
 
   ngOnInit() {
-    this.personalDetails = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      age: ['', Validators.required]
-    });
-    this.addressDetails = this.formBuilder.group({
-      town: ['', Validators.required],
-      street: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      country: ['', Validators.required]
-    });
+
+  }
+
+  onPurchase(consumer: Consumer) {
+    this.consumerService.add(consumer).subscribe(
+      (add) => {
+        this.snackbar.open(consumer.firstName + ' is toegevoegd!', undefined, {
+          duration: 5000,
+        });
+      });
   }
 }

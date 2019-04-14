@@ -8,6 +8,7 @@
            style="max-width:200px; max-height:200px; margin: 10px auto;">
       <mat-card-content>
         {{product.description}}
+        <h3>Prijs: €{{product.price}}</h3>
       </mat-card-content>
       <mat-card-actions>
         <button mat-button color="primary" (click)="onAddToShoppingCart(product)">Aan winkelmand toevoegen</button>

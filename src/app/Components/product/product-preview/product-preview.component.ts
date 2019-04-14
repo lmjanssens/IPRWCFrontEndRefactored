@@ -21,6 +21,6 @@ export class ProductPreviewComponent implements OnInit {
 
   onAddToShoppingCart(product: Product) {
     this.productAdded.emit(product);
-    this.shoppingCartComponent.onProductAdded(product);
+    // this.shoppingCartComponent.onProductAdded(product);
   }
 }

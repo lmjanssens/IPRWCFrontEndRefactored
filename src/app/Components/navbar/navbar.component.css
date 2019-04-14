@@ -1,10 +1,10 @@
-.sidenav-container {
-  height: 10%;
-  /*
-  Zou eigenlijk 100% moeten zijn,
-  de mobile sidenav is broken
-  */
-}
+/*.sidenav-container {*/
+  /*height: 10%;*/
+  /*!**/
+  /*Zou eigenlijk 100% moeten zijn,*/
+  /*de mobile sidenav is broken*/
+  /**!*/
+/*}*/
 
 .sidenav {
   width: 200px;

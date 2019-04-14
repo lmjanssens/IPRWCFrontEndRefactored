@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import localeNl from '@angular/common/locales/nl';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './Components/login/login.component';
@@ -28,6 +29,10 @@ import {ShoppingCartComponent} from './Components/shopping-cart/shopping-cart.co
 import {HttpClientModule} from '@angular/common/http';
 import {CheckoutComponent} from './Components/checkout/checkout.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {registerLocaleData} from '@angular/common';
+import { CheckoutStepperComponent } from './Components/checkout/checkout-stepper/checkout-stepper.component';
+
+registerLocaleData(localeNl, 'nl');
 
 @NgModule({
   declarations: [
@@ -40,6 +45,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ProductPreviewComponent,
     ShoppingCartComponent,
     CheckoutComponent,
+    CheckoutStepperComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: LOCALE_ID,
+    useValue: 'nl-NL'
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,0 +1,67 @@
+<mat-horizontal-stepper style="width: 80%; margin: 15px auto;" linear="true">
+  <mat-step [stepControl]="personalDetails">
+    <form [formGroup]="personalDetails">
+      <ng-template matStepLabel>Vul uw persoonsgegevens in</ng-template>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Voornaam" formControlName="firstName" required [(ngModel)]="consumer.firstName">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Tussenvoegsel" formControlName="middleName"
+               [(ngModel)]="consumer.middleName">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Achternaam" formControlName="lastName" required [(ngModel)]="consumer.lastName">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="E-mail" formControlName="email" required [(ngModel)]="consumer.email">
+      </mat-form-field>
+      <button mat-button matStepperNext>Volgende</button>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="addressDetails">
+    <form [formGroup]="addressDetails">
+      <ng-template matStepLabel>Vul uw adresgegevens in</ng-template>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Plaats" formControlName="town" required [(ngModel)]="consumer.town">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Straat + huisnummer" formControlName="address" required
+               [(ngModel)]="consumer.address">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput placeholder="Postcode" formControlName="postalCode" required [(ngModel)]="consumer.postalCode">
+      </mat-form-field>
+      <button mat-button matStepperPrevious>Terug</button>
+      <button mat-button matStepperNext>Volgende</button>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="financialDetails">
+    <form [formGroup]="financialDetails">
+      <ng-template matStepLabel>Vul uw creditcard gegevens in</ng-template>
+      <mat-form-field class="form-field">
+        <input matInput type="number" placeholder="Creditcard nummer" formControlName="creditCardNumber">
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput type="number" placeholder="MM" formControlName="expiryDateMonth">
+        <mat-error *ngIf="financialDetails.get('expiryDateMonth')?.invalid">
+          Laagste hoeveelheid : 1, hoogste hoeveelheid: 12
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput type="number" placeholder="YY" formControlName="expiryDateYear">
+        <mat-error *ngIf="financialDetails.get('expiryDateYear')?.invalid">
+          Laagste hoeveelheid : 19, hoogste hoeveelheid: 99
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <input matInput type="number" placeholder="CVV" formControlName="cvv">
+      </mat-form-field>
+      <button mat-button matStepperPrevious>Terug</button>
+      <button mat-button matStepperNext (click)="bought.emit(consumer)">Volgende</button>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Klaar!</ng-template>
+    Bedankt voor uw bestelling!
+  </mat-step>
+</mat-horizontal-stepper>
