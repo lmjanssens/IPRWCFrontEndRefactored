@@ -31,6 +31,8 @@ import {CheckoutComponent} from './Components/checkout/checkout.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {registerLocaleData} from '@angular/common';
 import { CheckoutStepperComponent } from './Components/checkout/checkout-stepper/checkout-stepper.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { DialogComponent } from './Components/dialog/dialog.component';
 
 registerLocaleData(localeNl, 'nl');
 
@@ -46,6 +48,7 @@ registerLocaleData(localeNl, 'nl');
     ShoppingCartComponent,
     CheckoutComponent,
     CheckoutStepperComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,13 +69,15 @@ registerLocaleData(localeNl, 'nl');
     ReactiveFormsModule,
     MatSnackBarModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule
   ],
   providers: [{
     provide: LOCALE_ID,
     useValue: 'nl-NL'
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogComponent]
 })
 export class AppModule {
 }

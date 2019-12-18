@@ -1,8 +1,12 @@
-.full-width-table {
-  width: 100%;
+table {
+  max-width: 60%;
+  table-layout: fixed;
+  margin: 20px auto;
 }
 
-.shopping-table {
-  width: 50%;
-  margin: 20px auto;
+th, td {
+  overflow: hidden;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
