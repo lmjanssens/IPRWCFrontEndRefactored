@@ -12,9 +12,8 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-button color="primary" (click)="onAddToShoppingCart(product)">Aan winkelmand toevoegen</button>
-        <button mat-button color="primary">Details bekijken</button>
+        <button [routerLink]="['/producten', product.id]" color="primary" mat-button>Details bekijken</button>
       </mat-card-actions>
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>
-

@@ -1,9 +1,6 @@
-import {AfterContentInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Product} from '../product.model';
 import {ShoppingCartComponent} from '../../shopping-cart/shopping-cart.component';
-import {ProductService} from '../../../services/product.service';
-import {MatGridList} from '@angular/material';
-import {MediaChange, MediaObserver} from '@angular/flex-layout';
 
 @Component({
   selector: 'app-product-preview',
@@ -11,16 +8,11 @@ import {MediaChange, MediaObserver} from '@angular/flex-layout';
   styleUrls: ['./product-preview.component.css'],
   providers: [ShoppingCartComponent]
 })
-export class ProductPreviewComponent implements OnInit {
+export class ProductPreviewComponent {
   @Input() products: Product[];
   @Output() productAdded: EventEmitter<Product> = new EventEmitter();
 
-
-  constructor(private shoppingCartComponent: ShoppingCartComponent, private productService: ProductService,
-              private observableMedia: MediaObserver) {
-  }
-
-  ngOnInit() {
+  constructor() {
   }
 
   onAddToShoppingCart(product: Product) {

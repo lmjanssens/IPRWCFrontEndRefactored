@@ -5,4 +5,8 @@ export interface Product extends BaseModel {
   description: string;
   imagePath: string;
   name: string;
+  ean: string;
+  brand: string;
+  detailedDescription: string;
+  shippingCost: number;
 }
