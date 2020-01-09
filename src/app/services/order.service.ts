@@ -1,5 +1,5 @@
 import {ApiService} from './api.service';
-import {Product} from '../Components/product/product.model';
+import {Order} from '../Components/shopping-cart/order.model';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
@@ -7,8 +7,8 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 
-export class ProductService extends ApiService<number, Product> {
+export class OrderService extends ApiService<number, Order> {
   constructor(http: HttpClient) {
-    super(http, '/producten/');
+    super(http, '/bestellingen/');
   }
 }

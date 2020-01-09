@@ -1,7 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumer} from '../consumer.model';
 import {ConsumerService} from '../../../services/consumer.service';
+import {Product} from '../../product/product.model';
 
 @Component({
   selector: 'app-checkout-stepper',
@@ -14,6 +15,7 @@ export class CheckoutStepperComponent implements OnInit {
   financialDetails: FormGroup;
   consumer: Consumer = ConsumerService.createNew();
   @Output() bought: EventEmitter<Consumer> = new EventEmitter<Consumer>();
+  @Input() shoppingCart: Product[] = [];
 
   constructor(private formBuilder: FormBuilder) {
   }
