@@ -13,7 +13,8 @@
         <input matInput placeholder="Achternaam" formControlName="lastName" required [(ngModel)]="consumer.lastName">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="E-mail" formControlName="email" required [(ngModel)]="consumer.email">
+        <input [(ngModel)]="consumer.email" formControlName="email" matInput
+               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="E-mail" required>
       </mat-form-field>
       <button mat-button matStepperNext>Volgende</button>
     </form>
@@ -25,7 +26,7 @@
         <input matInput placeholder="Plaats" formControlName="town" required [(ngModel)]="consumer.town">
       </mat-form-field>
       <mat-form-field class="form-field">
-        <input matInput placeholder="Straat + huisnummer" formControlName="address" required
+        <input formControlName="address" matInput pattern="^[A-z]+\s\d+" placeholder="Straat + huisnummer" required
                [(ngModel)]="consumer.address">
       </mat-form-field>
       <mat-form-field class="form-field">
