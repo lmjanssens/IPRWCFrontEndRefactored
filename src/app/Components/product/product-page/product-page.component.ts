@@ -28,7 +28,7 @@ export class ProductPageComponent implements OnInit {
     });
   }
 
-  onAddToShoppingCart(product: Product) { // TODO: works but is a filthy hack
+  onAddToShoppingCart(product: Product) {
     this.snackbar.open(product.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
     this.shoppingCartService.addToCart(product);
   }
