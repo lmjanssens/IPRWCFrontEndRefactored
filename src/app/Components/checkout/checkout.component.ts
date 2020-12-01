@@ -5,7 +5,7 @@ import {MatSnackBar} from '@angular/material';
 import {Order} from '../shopping-cart/order.model';
 import {Product} from '../product/product.model';
 import {OrderService} from '../../services/order.service';
-import {forkJoin, from, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 
 @Component({
