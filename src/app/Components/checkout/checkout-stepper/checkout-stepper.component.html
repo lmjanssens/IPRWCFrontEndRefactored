@@ -58,7 +58,7 @@
         <input matInput type="number" placeholder="CVV" formControlName="cvv">
       </mat-form-field>
       <button mat-button matStepperPrevious>Terug</button>
-      <button mat-button matStepperNext (click)="onPurchaseComplete.emit(payingConsumer)">Volgende</button>
+      <button mat-button matStepperNext (click)="whenPurchaseCompleted.emit(payingConsumer)">Volgende</button>
     </form>
   </mat-step>
   <mat-step>
