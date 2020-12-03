@@ -10,29 +10,29 @@ import {Product} from '../../product/product.model';
   styleUrls: ['./checkout-stepper.component.css']
 })
 export class CheckoutStepperComponent implements OnInit {
-  personalDetails: FormGroup;
-  addressDetails: FormGroup;
-  financialDetails: FormGroup;
-  consumer: Consumer = ConsumerService.createNew();
-  @Output() bought: EventEmitter<Consumer> = new EventEmitter<Consumer>();
+  consumersPersonalDetails: FormGroup;
+  consumersAddressDetails: FormGroup;
+  consumersFinancialDetails: FormGroup;
+  payingConsumer: Consumer = ConsumerService.createNew();
+  @Output() onPurchaseComplete: EventEmitter<Consumer> = new EventEmitter<Consumer>();
   @Input() shoppingCart: Product[] = [];
 
   constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
-    this.personalDetails = this.formBuilder.group({
+    this.consumersPersonalDetails = this.formBuilder.group({
       firstName: ['', Validators.required],
       middleName: [''],
       lastName: ['', Validators.required],
       email: ['', Validators.required]
     });
-    this.addressDetails = this.formBuilder.group({
+    this.consumersAddressDetails = this.formBuilder.group({
       town: ['', Validators.required],
       address: ['', Validators.required],
       postalCode: ['', Validators.required]
     });
-    this.financialDetails = this.formBuilder.group({
+    this.consumersFinancialDetails = this.formBuilder.group({
       creditCardNumber: ['', Validators.required],
       expiryDateMonth: [1, [Validators.required, Validators.min(1), Validators.max(12)]],
       expiryDateYear: [20, [Validators.required, Validators.min(19), Validators.max(99)]],

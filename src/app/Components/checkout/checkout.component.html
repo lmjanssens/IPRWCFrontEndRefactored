@@ -1,8 +1,8 @@
 <app-navbar></app-navbar>
 <main>
   <app-checkout-stepper
-    [shoppingCart]="products"
-    (bought)="onPurchase($event)"
+    [shoppingCart]="productsInCart"
+    (onPurchaseComplete)="confirmPurchase($event)"
   >
   </app-checkout-stepper>
 </main>

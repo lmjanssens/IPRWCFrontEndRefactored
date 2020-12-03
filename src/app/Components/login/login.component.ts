@@ -8,7 +8,7 @@ import {AuthService} from '../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public error = '';
+  public errorMessage = '';
   public showError = false;
   username = '';
   password = '';
@@ -26,10 +26,10 @@ export class LoginComponent implements OnInit {
     } catch ({error}) {
       this.showError = true;
       console.warn(error.message);
-      this.error = error.message;
+      this.errorMessage = error.message;
       setTimeout(() => {
         this.showError = false;
-        setTimeout(() => this.error = '', 250);
+        setTimeout(() => this.errorMessage = '', 250);
       }, 5000);
     }
   }

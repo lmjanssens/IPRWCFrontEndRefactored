@@ -24,7 +24,7 @@
     <mat-icon matSuffix>lock</mat-icon>
   </mat-form-field>
 
-  <mat-card [class.visible]="showError" class="app-error-bg error-card">{{error}}</mat-card>
+  <mat-card [class.visible]="showError" class="app-error-bg error-card">{{errorMessage}}</mat-card>
 
   <button mat-raised-button color="accent" [disabled]="showError" class="button">Inloggen</button>
 </form>
