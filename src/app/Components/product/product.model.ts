@@ -2,10 +2,10 @@ import {BaseModel} from '../../base.model';
 
 export interface Product extends BaseModel {
   price: number;
-  description: string;
+  shortDescription: string;
   imagePath: string;
   name: string;
-  ean: string;
+  EAN: string; // TODO: decide whether to put this in capitals or not
   brand: string;
   detailedDescription: string;
   shippingCost: number;

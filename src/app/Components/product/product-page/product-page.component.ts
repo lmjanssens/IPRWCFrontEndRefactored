@@ -15,12 +15,12 @@ import {ShoppingCartService} from '../../../services/shopping-cart.service';
 export class ProductPageComponent implements OnInit {
   @Input() product: Product;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute,
-              private snackbar: MatSnackBar, private shoppingCartService: ShoppingCartService) {
+  constructor(private productService: ProductService, private currentRoute: ActivatedRoute,
+              private shoppingCartConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService) {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    this.currentRoute.paramMap.subscribe(params => {
       this.productService.get(Number(params.get('supplierid')))
         .subscribe(fetchedProduct => {
           this.product = fetchedProduct;
@@ -29,7 +29,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   onAddToShoppingCart(product: Product) {
-    this.snackbar.open(product.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
+    this.shoppingCartConfirmationMessage.open(product.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
     this.shoppingCartService.addToCart(product);
   }
 }

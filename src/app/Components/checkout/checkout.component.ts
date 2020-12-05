@@ -17,8 +17,8 @@ export class CheckoutComponent implements OnInit {
   productsInCart: Product[] = [];
   shoppingCartObservable: Observable<Product[]> = of([]);
 
-  constructor(private consumerService: ConsumerService, private orderService: OrderService, private confirmationMessage: MatSnackBar,
-              private shoppingCartService: ShoppingCartService) {
+  constructor(private consumerService: ConsumerService, private orderService: OrderService,
+              private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService) {
     this.shoppingCartObservable = this.shoppingCartService.getItems();
     this.shoppingCartObservable.subscribe(_ => this.productsInCart = _);
   }
@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit {
     }
     this.consumerService.add(consumer).subscribe(
       (addedConsumer) => {
-        this.confirmationMessage.open('Bestelling geplaatst!', undefined, {
+        this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {
           duration: 5000,
         });
         this.addOrder(addedConsumer);

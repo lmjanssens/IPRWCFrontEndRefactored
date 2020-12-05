@@ -13,50 +13,53 @@ import {DialogComponent} from '../dialog/dialog.component';
 export class ShoppingCartComponent implements OnInit {
   displayedColumns = ['name', 'price', 'delete'];
   shoppingCart: Product[] = [];
-  dataSource;
-  shoppingCartObservable: Observable<Product[]> = of([]);
-  @Output() remove = new EventEmitter<Product>();
-  totalCost: number;
+  dataTableInput;
+  fetchedShoppingCart: Observable<Product[]> = of([]);
+  @Output() whenProductRemovedFromShoppingCart = new EventEmitter<Product>(); // TODO:not too sure about the 'when' naming
+  totalOrderCost: number;
 
-  constructor(private shoppingCartService: ShoppingCartService, private dialog: MatDialog, private snackbar: MatSnackBar) {
-    this.shoppingCartObservable = this.shoppingCartService.getItems();
-    this.shoppingCartObservable.subscribe(_ => this.shoppingCart = _);
+  constructor(private shoppingCartService: ShoppingCartService, private productRemovedConfirmationScreen: MatDialog,
+              private productRemovedConfirmationMessage: MatSnackBar) { // TODO: decide names for snackbar and screen
+    this.fetchedShoppingCart = this.shoppingCartService.getItems();
+    this.fetchedShoppingCart.subscribe(products => this.shoppingCart = products);
   }
 
   ngOnInit() {
-    this.refreshDataSource();
+    this.refreshDataTable();
   }
 
-  refreshDataSource() {
-    this.dataSource = new MatTableDataSource<Product>(this.shoppingCart);
+  refreshDataTable() {
+    this.dataTableInput = new MatTableDataSource<Product>(this.shoppingCart);
   }
 
-  onProductDeleted(product: Product) {
-    const index = this.shoppingCart.indexOf(product);
-    this.dialog.open(DialogComponent, {
+  onProductRemoved(productToRemoved: Product) {
+    const index = this.shoppingCart.indexOf(productToRemoved);
+    this.productRemovedConfirmationScreen.open(DialogComponent, {
       data: {
         title: 'Verwijder product',
         message: 'Weet u zeker dat u dit product wilt verwijderen?'
       },
     }).afterClosed().subscribe(remove => {
-      if (remove !== true) { return; }
-      this.snackbar.open('Product verwijderd!',  undefined, {duration: 5000});
+      if (remove !== true) {
+        return;
+      }
+      this.productRemovedConfirmationMessage.open('Product verwijderd!', undefined, {duration: 5000});
       if (index !== -1) { // If item is not present, it will delete item at -1, the last item, we need to avoid that.
         this.shoppingCart.splice(index, 1);
-        this.refreshDataSource();
+        this.refreshDataTable();
       }
     });
   }
 
   getTotalCost() {
-    this.totalCost = 0;
+    this.totalOrderCost = 0;
     for (const product of this.shoppingCart) {
-      this.totalCost += product.price;
+      this.totalOrderCost += product.price;
     }
-    return this.totalCost;
+    return this.totalOrderCost;
   }
 
-  shoppingCartFilled() {
+  shoppingCartFilled() { // TODO: make this a shoppingCartEmpty instead, and change the logic in the HTML template for clarity purposes
     return this.shoppingCart.length > 0;
   }
 }

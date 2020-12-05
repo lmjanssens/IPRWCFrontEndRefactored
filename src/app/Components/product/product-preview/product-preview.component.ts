@@ -10,12 +10,12 @@ import {ShoppingCartComponent} from '../../shopping-cart/shopping-cart.component
 })
 export class ProductPreviewComponent {
   @Input() products: Product[];
-  @Output() productAdded: EventEmitter<Product> = new EventEmitter();
+  @Output() whenProductAdded: EventEmitter<Product> = new EventEmitter();
 
   constructor() {
   }
 
   onAddToShoppingCart(product: Product) {
-    this.productAdded.emit(product);
+    this.whenProductAdded.emit(product);
   }
 }

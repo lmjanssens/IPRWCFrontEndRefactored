@@ -14,22 +14,21 @@ import {ProductService} from '../../services/product.service';
 })
 export class ProductComponent implements OnInit {
   products: Product[] = [];
-  @Output() productAdded = new EventEmitter<Product>();
 
-  constructor(private shoppingCartService: ShoppingCartService, private snackbar: MatSnackBar,
+  constructor(private shoppingCartService: ShoppingCartService, private shoppingCartConfirmationMessage: MatSnackBar,
               private productService: ProductService) {
   }
 
   ngOnInit() {
     forkJoin(
       this.productService.getAll()
-    ).subscribe(([products]) => {
-      this.products = products;
+    ).subscribe(([fetchedProducts]) => {
+      this.products = fetchedProducts;
     });
   }
 
-  onAddToShoppingCart(product: Product) {
-    this.snackbar.open(product.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
-    this.shoppingCartService.addToCart(product);
+  onAddToShoppingCart(addedProduct: Product) {
+    this.shoppingCartConfirmationMessage.open(addedProduct.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
+    this.shoppingCartService.addToCart(addedProduct);
   }
 }
