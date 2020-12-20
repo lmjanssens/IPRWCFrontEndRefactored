@@ -15,12 +15,12 @@ export class ShoppingCartComponent implements OnInit {
   shoppingCart: Product[] = [];
   dataTableInput;
   fetchedShoppingCart: Observable<Product[]> = of([]);
-  @Output() whenProductRemovedFromShoppingCart = new EventEmitter<Product>(); // TODO:not too sure about the 'when' naming
+  @Output() whenProductRemovedFromShoppingCart = new EventEmitter<Product>();
   totalOrderCost: number;
 
   constructor(private shoppingCartService: ShoppingCartService, private productRemovedConfirmationScreen: MatDialog,
-              private productRemovedConfirmationMessage: MatSnackBar) { // TODO: decide names for snackbar and screen
-    this.fetchedShoppingCart = this.shoppingCartService.getItems();
+              private productRemovedConfirmationMessage: MatSnackBar) {
+    this.fetchedShoppingCart = this.shoppingCartService.getProductsFromCart();
     this.fetchedShoppingCart.subscribe(products => this.shoppingCart = products);
   }
 
@@ -51,7 +51,7 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  getTotalCost() {
+  getTotalOrderCost() {
     this.totalOrderCost = 0;
     for (const product of this.shoppingCart) {
       this.totalOrderCost += product.price;
@@ -59,7 +59,7 @@ export class ShoppingCartComponent implements OnInit {
     return this.totalOrderCost;
   }
 
-  shoppingCartFilled() { // TODO: make this a shoppingCartEmpty instead, and change the logic in the HTML template for clarity purposes
+  shoppingCartContainsProducts() {
     return this.shoppingCart.length > 0;
   }
 }

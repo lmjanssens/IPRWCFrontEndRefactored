@@ -7,25 +7,25 @@ import {ApiCredentials} from './api-credentials';
   providedIn: 'root',
 })
 export class AuthService {
-  authenticated: boolean;
+  userIsAuthenticated: boolean;
 
   constructor(private http: HttpClient) {
   }
 
   verifyLogin(user: string, pass: string) {
     const credentials = new ApiCredentials(user, pass);
-    return new Promise((res, rej) => this.http.get(ApiService.API_ROOT + 'login', {
+    return new Promise((resolve, reject) => this.http.get(ApiService.API_ROOT + 'login', {
       headers: new HttpHeaders({
         'Authorization': credentials.toHeader(),
       }),
     }).subscribe(() => {
       ApiService.credentials = credentials;
-      this.authenticated = true;
-      res();
-    }, rej));
+      this.userIsAuthenticated = true;
+      resolve();
+    }, reject));
   }
 
-  isAuthenticated() {
-    return this.authenticated;
+  checkIfUserIsAuthenticated() {
+    return this.userIsAuthenticated;
   }
 }

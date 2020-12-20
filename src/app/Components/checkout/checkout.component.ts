@@ -19,7 +19,7 @@ export class CheckoutComponent implements OnInit {
 
   constructor(private consumerService: ConsumerService, private orderService: OrderService,
               private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService) {
-    this.shoppingCartObservable = this.shoppingCartService.getItems();
+    this.shoppingCartObservable = this.shoppingCartService.getProductsFromCart();
     this.shoppingCartObservable.subscribe(_ => this.productsInCart = _);
   }
 
@@ -31,22 +31,22 @@ export class CheckoutComponent implements OnInit {
     if (typeof consumer === 'undefined' || consumer === null) {
       return;
     }
-    this.consumerService.add(consumer).subscribe(
+    this.consumerService.postDatabaseEntity(consumer).subscribe(
       (addedConsumer) => {
         this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {
           duration: 5000,
         });
-        this.addOrder(addedConsumer);
+        this.postOrder(addedConsumer);
       });
   }
 
-  addOrder(consumer: Consumer) {
+  postOrder(consumer: Consumer) {
     if (typeof this.productsInCart === 'undefined' || this.productsInCart.length === 0) {
       return;
     }
     for (const product of this.productsInCart) {
       const order = {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
-      this.orderService.add(order).subscribe((sentOrder) => {
+      this.orderService.postDatabaseEntity(order).subscribe((sentOrder) => {
       });
     }
   }

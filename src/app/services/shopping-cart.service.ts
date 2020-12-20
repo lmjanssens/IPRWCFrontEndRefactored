@@ -6,18 +6,18 @@ import {BehaviorSubject, Observable} from 'rxjs';
   providedIn: 'root',
 })
 export class ShoppingCartService {
-  private itemsInCartSubject: BehaviorSubject<Product[]> = new BehaviorSubject([]);
-  private itemsInCart: Product[] = [];
+  private cart: BehaviorSubject<Product[]> = new BehaviorSubject([]);
+  private productsInCart: Product[] = [];
 
   constructor() {
-    this.itemsInCartSubject.subscribe(_ => this.itemsInCart = _);
+    this.cart.subscribe(_ => this.productsInCart = _);
   }
 
-  public addToCart(product: Product) {
-    this.itemsInCartSubject.next([...this.itemsInCart, product]);
+  public addProductToCart(product: Product) {
+    this.cart.next([...this.productsInCart, product]);
   }
 
-  public getItems(): Observable<Product[]> {
-    return this.itemsInCartSubject;
+  public getProductsFromCart(): Observable<Product[]> {
+    return this.cart;
   }
 }

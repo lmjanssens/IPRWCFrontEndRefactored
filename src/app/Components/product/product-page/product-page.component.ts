@@ -21,7 +21,7 @@ export class ProductPageComponent implements OnInit {
 
   ngOnInit() {
     this.currentRoute.paramMap.subscribe(params => {
-      this.productService.get(Number(params.get('supplierid')))
+      this.productService.getDatabaseEntity(Number(params.get('supplierid')))
         .subscribe(fetchedProduct => {
           this.product = fetchedProduct;
         });
@@ -30,6 +30,6 @@ export class ProductPageComponent implements OnInit {
 
   onAddToShoppingCart(product: Product) {
     this.shoppingCartConfirmationMessage.open(product.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
-    this.shoppingCartService.addToCart(product);
+    this.shoppingCartService.addProductToCart(product);
   }
 }

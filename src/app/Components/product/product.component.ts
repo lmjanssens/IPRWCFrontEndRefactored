@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Product} from './product.model';
 import {ShoppingCartComponent} from '../shopping-cart/shopping-cart.component';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
@@ -21,7 +21,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     forkJoin(
-      this.productService.getAll()
+      this.productService.getAllDatabaseEntities()
     ).subscribe(([fetchedProducts]) => {
       this.products = fetchedProducts;
     });
@@ -29,6 +29,6 @@ export class ProductComponent implements OnInit {
 
   onAddToShoppingCart(addedProduct: Product) {
     this.shoppingCartConfirmationMessage.open(addedProduct.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
-    this.shoppingCartService.addToCart(addedProduct);
+    this.shoppingCartService.addProductToCart(addedProduct);
   }
 }

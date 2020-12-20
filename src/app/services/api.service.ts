@@ -31,15 +31,15 @@ export abstract class ApiService<K, T extends BaseModel> {
     return ApiService.API_ROOT + (path.startsWith('/') ? path.substr(1) : path);
   }
 
-  public get(id: number): Observable<T> {
+  public getDatabaseEntity(id: number): Observable<T> {
     return this.request('GET', this.PATH + id);
   }
 
-  public getAll(): Observable<T[]> {
+  public getAllDatabaseEntities(): Observable<T[]> {
     return this.request('GET', this.PATH);
   }
 
-  public add(entity: T): Observable<T> {
+  public postDatabaseEntity(entity: T): Observable<T> {
     return this.request('POST', this.PATH, entity);
   }
 
