@@ -15,12 +15,12 @@ import {ShoppingCartService} from '../../services/shopping-cart.service';
 })
 export class CheckoutComponent implements OnInit {
   productsInCart: Product[] = [];
-  shoppingCartObservable: Observable<Product[]> = of([]);
+  shoppingCart: Observable<Product[]> = of([]);
 
   constructor(private consumerService: ConsumerService, private orderService: OrderService,
               private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService) {
-    this.shoppingCartObservable = this.shoppingCartService.getProductsFromCart();
-    this.shoppingCartObservable.subscribe(_ => this.productsInCart = _);
+    this.shoppingCart = this.shoppingCartService.getProductsFromCart();
+    this.shoppingCart.subscribe(_ => this.productsInCart = _);
   }
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class CheckoutComponent implements OnInit {
     if (typeof consumer === 'undefined' || consumer === null) {
       return;
     }
-    this.consumerService.postDatabaseEntity(consumer).subscribe(
+    this.consumerService.postEntityToAPI(consumer).subscribe(
       (addedConsumer) => {
         this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {
           duration: 5000,
@@ -46,7 +46,7 @@ export class CheckoutComponent implements OnInit {
     }
     for (const product of this.productsInCart) {
       const order = {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
-      this.orderService.postDatabaseEntity(order).subscribe((sentOrder) => {
+      this.orderService.postEntityToAPI(order).subscribe((sentOrder) => {
       });
     }
   }

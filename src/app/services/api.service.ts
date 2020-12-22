@@ -5,9 +5,10 @@ import {ApiCredentials} from './api-credentials';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-export abstract class ApiService<K, T extends BaseModel> {
+export abstract class ApiService<T extends BaseModel> {
   public static readonly API_ROOT = '/api/';
   private static _credentials: ApiCredentials = new ApiCredentials('student', 'studentww');
+
   protected constructor(protected http: HttpClient, protected PATH: string) {
   }
 
@@ -31,15 +32,15 @@ export abstract class ApiService<K, T extends BaseModel> {
     return ApiService.API_ROOT + (path.startsWith('/') ? path.substr(1) : path);
   }
 
-  public getDatabaseEntity(id: number): Observable<T> {
+  public getEntityFromAPI(id: number): Observable<T> {
     return this.request('GET', this.PATH + id);
   }
 
-  public getAllDatabaseEntities(): Observable<T[]> {
+  public getAllEntitiesFromAPI(): Observable<T[]> {
     return this.request('GET', this.PATH);
   }
 
-  public postDatabaseEntity(entity: T): Observable<T> {
+  public postEntityToAPI(entity: T): Observable<T> {
     return this.request('POST', this.PATH, entity);
   }
 

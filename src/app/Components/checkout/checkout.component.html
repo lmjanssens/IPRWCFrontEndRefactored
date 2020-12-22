@@ -2,7 +2,7 @@
 <main>
   <app-checkout-stepper
     [shoppingCart]="productsInCart"
-    (whenPurchaseCompleted)="confirmPurchase($event)"
+    (whenPayingConsumerCompletesPurchase)="confirmPurchase($event)"
   >
   </app-checkout-stepper>
 </main>

@@ -7,7 +7,7 @@ import {Consumer} from '../Components/checkout/consumer.model';
   providedIn: 'root',
 })
 
-export class ConsumerService extends ApiService<number, Consumer> {
+export class ConsumerService extends ApiService<Consumer> {
   constructor(http: HttpClient) {
     super(http, '/gebruikers/');
   }

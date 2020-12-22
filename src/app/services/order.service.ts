@@ -7,7 +7,7 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 
-export class OrderService extends ApiService<number, Order> {
+export class OrderService extends ApiService<Order> {
   constructor(http: HttpClient) {
     super(http, '/bestellingen/');
   }

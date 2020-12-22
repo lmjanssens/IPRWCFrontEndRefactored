@@ -14,7 +14,7 @@ export class CheckoutStepperComponent implements OnInit {
   consumersAddressDetails: FormGroup;
   consumersFinancialDetails: FormGroup;
   payingConsumer: Consumer = ConsumerService.createNew();
-  @Output() whenPurchaseCompleted: EventEmitter<Consumer> = new EventEmitter<Consumer>();
+  @Output() whenPayingConsumerCompletesPurchase: EventEmitter<Consumer> = new EventEmitter<Consumer>();
   @Input() shoppingCart: Product[] = [];
 
   constructor(private formBuilder: FormBuilder) {

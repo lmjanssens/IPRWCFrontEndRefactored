@@ -11,17 +11,17 @@ import {DialogComponent} from '../dialog/dialog.component';
   styleUrls: ['./shopping-cart.component.css'],
 })
 export class ShoppingCartComponent implements OnInit {
-  displayedColumns = ['name', 'price', 'delete'];
   shoppingCart: Product[] = [];
-  dataTableInput;
-  fetchedShoppingCart: Observable<Product[]> = of([]);
-  @Output() whenProductRemovedFromShoppingCart = new EventEmitter<Product>();
+  shoppingCartObservable: Observable<Product[]> = of([]);
+  shoppingCartTableColumns = ['name', 'price', 'delete'];
+  shoppingCartTableData: MatTableDataSource<Product>;
+  @Output() whenConsumerRemovesProductFromShoppingCart = new EventEmitter<Product>();
   totalOrderCost: number;
 
   constructor(private shoppingCartService: ShoppingCartService, private productRemovedConfirmationScreen: MatDialog,
               private productRemovedConfirmationMessage: MatSnackBar) {
-    this.fetchedShoppingCart = this.shoppingCartService.getProductsFromCart();
-    this.fetchedShoppingCart.subscribe(products => this.shoppingCart = products);
+    this.shoppingCartObservable = this.shoppingCartService.getProductsFromCart();
+    this.shoppingCartObservable.subscribe(products => this.shoppingCart = products);
   }
 
   ngOnInit() {
@@ -29,11 +29,11 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   refreshDataTable() {
-    this.dataTableInput = new MatTableDataSource<Product>(this.shoppingCart);
+    this.shoppingCartTableData = new MatTableDataSource<Product>(this.shoppingCart);
   }
 
-  onProductRemoved(productToRemoved: Product) {
-    const index = this.shoppingCart.indexOf(productToRemoved);
+  onProductRemoved(productToRemove: Product) {
+    const index = this.shoppingCart.indexOf(productToRemove);
     this.productRemovedConfirmationScreen.open(DialogComponent, {
       data: {
         title: 'Verwijder product',

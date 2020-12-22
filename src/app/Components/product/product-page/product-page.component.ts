@@ -21,7 +21,7 @@ export class ProductPageComponent implements OnInit {
 
   ngOnInit() {
     this.currentRoute.paramMap.subscribe(params => {
-      this.productService.getDatabaseEntity(Number(params.get('supplierid')))
+      this.productService.getEntityFromAPI(Number(params.get('supplierid')))
         .subscribe(fetchedProduct => {
           this.product = fetchedProduct;
         });

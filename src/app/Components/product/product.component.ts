@@ -21,9 +21,9 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     forkJoin(
-      this.productService.getAllDatabaseEntities()
-    ).subscribe(([fetchedProducts]) => {
-      this.products = fetchedProducts;
+      this.productService.getAllEntitiesFromAPI()
+    ).subscribe(([productsFromAPI]) => {
+      this.products = productsFromAPI;
     });
   }
 
