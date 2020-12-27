@@ -21,6 +21,10 @@ export class CheckoutStepperComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setFormGroups();
+  }
+
+  setFormGroups() {
     this.consumersPersonalDetails = this.formBuilder.group({
       firstName: ['', Validators.required],
       middleName: [''],
@@ -39,5 +43,4 @@ export class CheckoutStepperComponent implements OnInit {
       cvv: ['', Validators.required]
     });
   }
-
 }

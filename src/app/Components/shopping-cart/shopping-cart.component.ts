@@ -16,7 +16,7 @@ export class ShoppingCartComponent implements OnInit {
   shoppingCartTableColumns = ['name', 'price', 'delete'];
   shoppingCartTableData: MatTableDataSource<Product>;
   @Output() whenConsumerRemovesProductFromShoppingCart = new EventEmitter<Product>();
-  totalOrderCost: number;
+  totalOrderCost: 0;
 
   constructor(private shoppingCartService: ShoppingCartService, private productRemovedConfirmationScreen: MatDialog,
               private productRemovedConfirmationMessage: MatSnackBar) {
@@ -25,10 +25,10 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.refreshDataTable();
+    this.setUpDataTable();
   }
 
-  refreshDataTable() {
+  setUpDataTable() {
     this.shoppingCartTableData = new MatTableDataSource<Product>(this.shoppingCart);
   }
 
@@ -46,13 +46,12 @@ export class ShoppingCartComponent implements OnInit {
       this.productRemovedConfirmationMessage.open('Product verwijderd!', undefined, {duration: 5000});
       if (index !== -1) { // If item is not present, it will delete item at -1, the last item, we need to avoid that.
         this.shoppingCart.splice(index, 1);
-        this.refreshDataTable();
+        this.setUpDataTable();
       }
     });
   }
 
   getTotalOrderCost() {
-    this.totalOrderCost = 0;
     for (const product of this.shoppingCart) {
       this.totalOrderCost += product.price;
     }

@@ -11,7 +11,7 @@ import {ProductPageComponent} from './Components/product/product-page/product-pa
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'producten', component: ProductComponent, canActivate: [AuthGuardService]},
-  {path: 'producten/:supplierid', component: ProductPageComponent, canActivate: [AuthGuardService]},
+  {path: 'producten/:productId', component: ProductPageComponent, canActivate: [AuthGuardService]},
   {path: 'winkelwagen', component: ShoppingCartComponent, canActivate: [AuthGuardService]},
   {path: 'niet-gevonden', component: ErrorComponent, data: {message: 'Pagina niet gevonden.'}},
   {path: 'afrekenen', component: CheckoutComponent, canActivate: [AuthGuardService]},

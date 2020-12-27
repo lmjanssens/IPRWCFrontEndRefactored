@@ -7,36 +7,50 @@ import {Product} from '../product/product.model';
 import {OrderService} from '../../services/order.service';
 import {Observable, of} from 'rxjs';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
+import {ShoppingCartComponent} from '../shopping-cart/shopping-cart.component';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
+  providers: [ShoppingCartComponent],
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
   productsInCart: Product[] = [];
-  shoppingCart: Observable<Product[]> = of([]);
+  shoppingCartObservable: Observable<Product[]> = of([]);
 
   constructor(private consumerService: ConsumerService, private orderService: OrderService,
-              private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService) {
-    this.shoppingCart = this.shoppingCartService.getProductsFromCart();
-    this.shoppingCart.subscribe(_ => this.productsInCart = _);
+              private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService,
+              private shoppingCartComponent: ShoppingCartComponent) {
   }
 
   ngOnInit() {
+    this.fillShoppingCart();
+  }
 
+  fillShoppingCart() {
+    this.shoppingCartObservable = this.shoppingCartService.getProductsFromCart();
+    this.shoppingCartObservable.subscribe(_ => this.productsInCart = _);
   }
 
   confirmPurchase(consumer: Consumer) {
     if (typeof consumer === 'undefined' || consumer === null) {
-      return;
+      return; // TODO: :thinking:
     }
+    this.postConsumer(consumer);
+    this.showPurchaseConfirmationMessage();
+  }
+
+  showPurchaseConfirmationMessage() {
+    this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {
+      duration: 5000,
+    });
+  }
+
+  postConsumer(consumer: Consumer) {
     this.consumerService.postEntityToAPI(consumer).subscribe(
       (addedConsumer) => {
-        this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {
-          duration: 5000,
-        });
-        this.postOrder(addedConsumer);
+        this.postOrder(addedConsumer); // TODO: orders worden niet meer gepost ofzo
       });
   }
 
@@ -46,8 +60,7 @@ export class CheckoutComponent implements OnInit {
     }
     for (const product of this.productsInCart) {
       const order = {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
-      this.orderService.postEntityToAPI(order).subscribe((sentOrder) => {
-      });
+      this.orderService.postEntityToAPI(order);
     }
   }
 }

@@ -20,10 +20,14 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllProductsFromAPI();
+  }
+
+  getAllProductsFromAPI() {
     forkJoin(
       this.productService.getAllEntitiesFromAPI()
     ).subscribe(([productsFromAPI]) => {
-      this.products = productsFromAPI;
+      this.products = productsFromAPI; // TODO: different abstraction level?
     });
   }
 

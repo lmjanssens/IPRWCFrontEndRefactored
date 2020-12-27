@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 
@@ -7,7 +7,7 @@ import {AuthService} from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   public errorMessage = '';
   public showError = false;
   username = '';
@@ -16,10 +16,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {
   }
 
-  ngOnInit() {
-  }
-
-  async loginButtonClicked() {
+  async loginButtonClicked() { // TODO: try catch refactor
     try {
       await this.authService.verifyLogin(this.username, this.password);
       this.router.navigate(['producten']);
