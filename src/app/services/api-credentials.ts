@@ -1,5 +1,5 @@
 export class ApiCredentials {
-  constructor(private username: string, private password: string) {
+  constructor(private username?: string, private password?: string) {
   }
 
   public toHeader(): string {

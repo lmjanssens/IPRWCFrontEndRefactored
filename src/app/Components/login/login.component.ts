@@ -19,7 +19,7 @@ export class LoginComponent {
   async loginButtonClicked() { // TODO: try catch refactor
     try {
       await this.authService.verifyLogin(this.username, this.password);
-      this.router.navigate(['producten']);
+      await this.router.navigate(['producten']);
     } catch ({error}) {
       this.showError = true;
       console.warn(error.message);

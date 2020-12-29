@@ -15,7 +15,7 @@ import {ProductService} from '../../services/product.service';
 export class ProductComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private shoppingCartService: ShoppingCartService, private shoppingCartConfirmationMessage: MatSnackBar,
+  constructor(private shoppingCartService: ShoppingCartService, private productAddedToShoppingCartConfirmationMessage: MatSnackBar,
               private productService: ProductService) {
   }
 
@@ -26,13 +26,19 @@ export class ProductComponent implements OnInit {
   getAllProductsFromAPI() {
     forkJoin(
       this.productService.getAllEntitiesFromAPI()
-    ).subscribe(([productsFromAPI]) => {
-      this.products = productsFromAPI; // TODO: different abstraction level?
+    ).subscribe(([fetchedProductsFromAPI]) => {
+      this.products = fetchedProductsFromAPI;
     });
   }
 
   onAddToShoppingCart(addedProduct: Product) {
-    this.shoppingCartConfirmationMessage.open(addedProduct.name + ' is toegevoegd aan uw winkelmand!', undefined, {duration: 5000});
+    this.showProductAddedToShoppingCartConfirmationMessage(addedProduct);
     this.shoppingCartService.addProductToCart(addedProduct);
+  }
+
+  showProductAddedToShoppingCartConfirmationMessage(addedProduct: Product) {
+    this.productAddedToShoppingCartConfirmationMessage.open(addedProduct.name + ' is toegevoegd aan uw winkelmand!', undefined, {
+      duration: 5000
+    });
   }
 }

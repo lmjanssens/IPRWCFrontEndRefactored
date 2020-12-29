@@ -7,20 +7,19 @@ type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export abstract class ApiService<T extends BaseModel> {
   public static readonly API_ROOT = '/api/';
-  private static _credentials: ApiCredentials = new ApiCredentials('student', 'studentww');
+  private static _credentials: ApiCredentials = new ApiCredentials();
 
   protected constructor(protected http: HttpClient, protected PATH: string) {
   }
 
-  static set credentials(value: ApiCredentials) {
-    this._credentials = value;
+  static set credentials(apiCredentials: ApiCredentials) {
+    this._credentials = apiCredentials;
   }
 
-  private static buildOptions(options?: {}) {
+  private static buildHttpOptions(options?: {}) {
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        // 'Accept': 'application/json',
         'Authorization': ApiService._credentials.toHeader(),
       }),
       withCredentials: false,
@@ -44,10 +43,15 @@ export abstract class ApiService<T extends BaseModel> {
     return this.request('POST', this.PATH, entity);
   }
 
-  protected request<R = T>(method: RequestMethod, path: string, body?: R): Observable<R> {
+  private throwErrorIfMethodIsPostOrPutAndBodyIsMissing<R = T>(method: RequestMethod, body?: R) {
     if ((method === 'POST' || method === 'PUT') && !body) {
       throw new Error('Parameter body is required when using POST or PUT');
     }
-    return this.http.request<R>(method, ApiService.buildPath(path), ApiService.buildOptions({ body }));
+  }
+
+  protected request<R = T>(method: RequestMethod, path: string, body?: R): Observable<R> {
+    this.throwErrorIfMethodIsPostOrPutAndBodyIsMissing(method, body);
+
+    return this.http.request<R>(method, ApiService.buildPath(path), ApiService.buildHttpOptions({body}));
   }
 }

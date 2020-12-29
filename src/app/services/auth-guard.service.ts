@@ -6,6 +6,7 @@ import {AuthService} from './auth.service';
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
+
   constructor(private authService: AuthService) {
   }
 

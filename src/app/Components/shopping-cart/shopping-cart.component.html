@@ -8,7 +8,7 @@
   <ng-container matColumnDef="price">
     <th mat-header-cell *matHeaderCellDef>Prijs</th>
     <td mat-cell *matCellDef="let item">{{item.price | currency: 'EUR':true}}</td>
-    <td mat-footer-cell *matFooterCellDef>{{getTotalOrderCost() | currency: 'EUR':true}}</td>
+    <td mat-footer-cell *matFooterCellDef>{{calculateTotalOrderCost() | currency: 'EUR':true}}</td>
   </ng-container>
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef>Verwijder</th>

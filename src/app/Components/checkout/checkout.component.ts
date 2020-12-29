@@ -5,7 +5,6 @@ import {MatSnackBar} from '@angular/material';
 import {Order} from '../shopping-cart/order.model';
 import {Product} from '../product/product.model';
 import {OrderService} from '../../services/order.service';
-import {Observable, of} from 'rxjs';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 import {ShoppingCartComponent} from '../shopping-cart/shopping-cart.component';
 
@@ -16,8 +15,7 @@ import {ShoppingCartComponent} from '../shopping-cart/shopping-cart.component';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  productsInCart: Product[] = [];
-  shoppingCartObservable: Observable<Product[]> = of([]);
+  shoppingCart: Product[] = [];
 
   constructor(private consumerService: ConsumerService, private orderService: OrderService,
               private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService,
@@ -25,26 +23,32 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fillShoppingCart();
+    this.shoppingCart = this.fillShoppingCart();
   }
 
   fillShoppingCart() {
-    this.shoppingCartObservable = this.shoppingCartService.getProductsFromCart();
-    this.shoppingCartObservable.subscribe(_ => this.productsInCart = _);
+    return this.shoppingCartComponent.fillShoppingCart();
   }
 
-  confirmPurchase(consumer: Consumer) {
-    if (typeof consumer === 'undefined' || consumer === null) {
-      return; // TODO: :thinking:
+  checkIfConsumerIsUndefinedOrNull(consumer: Consumer) {
+    return typeof consumer === 'undefined' || consumer === null;
+  }
+
+  checkIfShoppingCartIsUndefinedOrEmpty(shoppingCart: Product[]) {
+    return typeof shoppingCart === 'undefined' || shoppingCart.length === 0;
+  }
+
+  onPurchaseConfirmed(consumer: Consumer) {
+    if (this.checkIfConsumerIsUndefinedOrNull(consumer)) {
+      return;
     }
+
     this.postConsumer(consumer);
     this.showPurchaseConfirmationMessage();
   }
 
   showPurchaseConfirmationMessage() {
-    this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {
-      duration: 5000,
-    });
+    this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {duration: 5000});
   }
 
   postConsumer(consumer: Consumer) {
@@ -55,10 +59,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   postOrder(consumer: Consumer) {
-    if (typeof this.productsInCart === 'undefined' || this.productsInCart.length === 0) {
+    if (this.checkIfShoppingCartIsUndefinedOrEmpty(this.shoppingCart)) {
       return;
     }
-    for (const product of this.productsInCart) {
+
+    for (const product of this.shoppingCart) {
       const order = {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
       this.orderService.postEntityToAPI(order);
     }

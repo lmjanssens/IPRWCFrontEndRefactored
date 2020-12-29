@@ -12,8 +12,8 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  verifyLogin(user: string, pass: string) {
-    const credentials = new ApiCredentials(user, pass);
+  verifyLogin(username: string, password: string) {
+    const credentials = new ApiCredentials(username, password);
     return new Promise((resolve, reject) => this.http.get(ApiService.API_ROOT + 'login', {
       headers: new HttpHeaders({
         'Authorization': credentials.toHeader(),
