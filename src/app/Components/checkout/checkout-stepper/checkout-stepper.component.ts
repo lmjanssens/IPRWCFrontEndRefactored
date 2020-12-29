@@ -24,7 +24,7 @@ export class CheckoutStepperComponent implements OnInit {
     this.setFormGroups();
   }
 
-  setFormGroups() {
+  private setFormGroups() {
     this.consumersPersonalDetails = this.formBuilder.group({
       firstName: ['', Validators.required],
       middleName: [''],

@@ -15,7 +15,7 @@ export class ProductPreviewComponent {
   constructor() {
   }
 
-  onAddToShoppingCart(product: Product) {
+  public onAddToShoppingCart(product: Product) {
     this.whenProductAdded.emit(product);
   }
 }

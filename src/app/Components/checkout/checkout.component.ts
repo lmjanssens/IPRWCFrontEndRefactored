@@ -26,19 +26,19 @@ export class CheckoutComponent implements OnInit {
     this.shoppingCart = this.fillShoppingCart();
   }
 
-  fillShoppingCart() {
+  private fillShoppingCart() {
     return this.shoppingCartComponent.fillShoppingCart();
   }
 
-  checkIfConsumerIsUndefinedOrNull(consumer: Consumer) {
+  private checkIfConsumerIsUndefinedOrNull(consumer: Consumer) {
     return typeof consumer === 'undefined' || consumer === null;
   }
 
-  checkIfShoppingCartIsUndefinedOrEmpty(shoppingCart: Product[]) {
+  private checkIfShoppingCartIsUndefinedOrEmpty(shoppingCart: Product[]) {
     return typeof shoppingCart === 'undefined' || shoppingCart.length === 0;
   }
 
-  onPurchaseConfirmed(consumer: Consumer) {
+  public onPurchaseConfirmed(consumer: Consumer) {
     if (this.checkIfConsumerIsUndefinedOrNull(consumer)) {
       return;
     }
@@ -47,24 +47,28 @@ export class CheckoutComponent implements OnInit {
     this.showPurchaseConfirmationMessage();
   }
 
-  showPurchaseConfirmationMessage() {
+  private showPurchaseConfirmationMessage() {
     this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {duration: 5000});
   }
 
-  postConsumer(consumer: Consumer) {
+  private postConsumer(consumer: Consumer) {
     this.consumerService.postEntityToAPI(consumer).subscribe(
       (addedConsumer) => {
         this.postOrder(addedConsumer); // TODO: orders worden niet meer gepost ofzo
       });
   }
 
-  postOrder(consumer: Consumer) {
+  private createOrderToPostToAPI(product: Product, consumer: Consumer): Order {
+    return {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
+  }
+
+  private postOrder(consumer: Consumer) {
     if (this.checkIfShoppingCartIsUndefinedOrEmpty(this.shoppingCart)) {
       return;
     }
 
     for (const product of this.shoppingCart) {
-      const order = {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
+      const order = this.createOrderToPostToAPI(product, consumer);
       this.orderService.postEntityToAPI(order);
     }
   }

@@ -24,14 +24,14 @@ export class ProductPageComponent implements OnInit {
     this.getProductFromAPI();
   }
 
-  getProductFromAPI() {
+  private getProductFromAPI() {
     this.productService.getEntityFromAPI(this.productId)
       .subscribe(fetchedProduct => {
         this.product = fetchedProduct;
       });
   }
 
-  onAddToShoppingCart(product: Product) {
+  public onAddToShoppingCart(product: Product) {
     this.productComponent.onAddToShoppingCart(product);
   }
 }

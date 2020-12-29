@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
     this.getAllProductsFromAPI();
   }
 
-  getAllProductsFromAPI() {
+  private getAllProductsFromAPI() {
     forkJoin(
       this.productService.getAllEntitiesFromAPI()
     ).subscribe(([fetchedProductsFromAPI]) => {
@@ -31,12 +31,12 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  onAddToShoppingCart(addedProduct: Product) {
+  public onAddToShoppingCart(addedProduct: Product) {
     this.showProductAddedToShoppingCartConfirmationMessage(addedProduct);
     this.shoppingCartService.addProductToCart(addedProduct);
   }
 
-  showProductAddedToShoppingCartConfirmationMessage(addedProduct: Product) {
+  private showProductAddedToShoppingCartConfirmationMessage(addedProduct: Product) {
     this.productAddedToShoppingCartConfirmationMessage.open(addedProduct.name + ' is toegevoegd aan uw winkelmand!', undefined, {
       duration: 5000
     });

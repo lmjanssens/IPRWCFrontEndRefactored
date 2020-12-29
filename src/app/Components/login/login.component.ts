@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(private router: Router, private authService: AuthService) {
   }
 
-  async loginButtonClicked() { // TODO: try catch refactor
+  public async loginButtonClicked() { // TODO: try catch refactor
     try {
       await this.authService.verifyLogin(this.username, this.password);
       await this.router.navigate(['producten']);

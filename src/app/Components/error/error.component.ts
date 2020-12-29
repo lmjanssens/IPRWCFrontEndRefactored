@@ -13,10 +13,10 @@ export class ErrorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setErrorMessage();
+    this.setErrorMessageForCurrentRoute();
   }
 
-  setErrorMessage() {
+  private setErrorMessageForCurrentRoute() {
     this.currentRoute.data.subscribe(
       (data: Data) => {
         this.errorMessage = data['message'];

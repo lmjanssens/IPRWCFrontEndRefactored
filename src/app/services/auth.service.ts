@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  verifyLogin(username: string, password: string) {
+  public verifyLogin(username: string, password: string) {
     const credentials = new ApiCredentials(username, password);
     return new Promise((resolve, reject) => this.http.get(ApiService.API_ROOT + 'login', {
       headers: new HttpHeaders({
@@ -25,7 +25,7 @@ export class AuthService {
     }, reject));
   }
 
-  checkIfUserIsAuthenticated() {
+  public checkIfUserIsAuthenticated() {
     return this.userIsAuthenticated;
   }
 }
