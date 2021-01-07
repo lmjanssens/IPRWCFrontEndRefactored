@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
 
   private getAllProductsFromAPI() {
     forkJoin(
-      this.productService.getAllEntitiesFromAPI()
+      this.productService.tryToGetAllEntitiesFromAPI()
     ).subscribe(([fetchedProductsFromAPI]) => {
       this.products = fetchedProductsFromAPI;
     });

@@ -7,6 +7,7 @@ import {Product} from '../product/product.model';
 import {OrderService} from '../../services/order.service';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 import {ShoppingCartComponent} from '../shopping-cart/shopping-cart.component';
+import {FaultyEntityError} from '../../exception/FaultyEntityError';
 
 @Component({
   selector: 'app-checkout',
@@ -30,46 +31,62 @@ export class CheckoutComponent implements OnInit {
     return this.shoppingCartComponent.fillShoppingCart();
   }
 
-  private checkIfConsumerIsUndefinedOrNull(consumer: Consumer) {
-    return typeof consumer === 'undefined' || consumer === null;
-  }
-
-  private checkIfShoppingCartIsUndefinedOrEmpty(shoppingCart: Product[]) {
-    return typeof shoppingCart === 'undefined' || shoppingCart.length === 0;
-  }
-
   public onPurchaseConfirmed(consumer: Consumer) {
-    if (this.checkIfConsumerIsUndefinedOrNull(consumer)) {
-      return;
+    try {
+      this.confirmPurchase(consumer);
+    } catch (FaultyEntityError) {
+      console.error(FaultyEntityError.message);
     }
+  }
 
-    this.postConsumer(consumer);
+  public confirmPurchase(consumer: Consumer) {
+    this.throwFaultyEntityErrorIfConsumerIsUndefinedOrNull(consumer);
+
+    this.postConsumerToAPI(consumer);
     this.showPurchaseConfirmationMessage();
+  }
+
+  private postConsumerToAPI(consumer: Consumer) {
+    this.consumerService.tryToPostEntityToAPI(consumer).subscribe(
+      (addedConsumer) => {
+        this.postOrderToAPI(addedConsumer);
+      });
+  }
+
+  private postOrderToAPI(consumer: Consumer) {
+    try {
+      this.tryToPostOrderToAPI(consumer);
+    } catch (FaultyEntityError) {
+      console.error(FaultyEntityError.message);
+    }
+  }
+
+  private tryToPostOrderToAPI(consumer: Consumer) {
+    this.throwFaultyEntityErrorIfShoppingCartIsUndefinedOrEmpty(this.shoppingCart);
+
+    for (const product of this.shoppingCart) {
+      const order = this.createOrderToPostToAPI(product, consumer);
+      this.orderService.tryToPostEntityToAPI(order);
+    }
   }
 
   private showPurchaseConfirmationMessage() {
     this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {duration: 5000});
   }
 
-  private postConsumer(consumer: Consumer) {
-    this.consumerService.postEntityToAPI(consumer).subscribe(
-      (addedConsumer) => {
-        this.postOrder(addedConsumer); // TODO: orders worden niet meer gepost ofzo
-      });
-  }
-
   private createOrderToPostToAPI(product: Product, consumer: Consumer): Order {
     return {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
   }
 
-  private postOrder(consumer: Consumer) {
-    if (this.checkIfShoppingCartIsUndefinedOrEmpty(this.shoppingCart)) {
-      return;
+  private throwFaultyEntityErrorIfConsumerIsUndefinedOrNull(consumer: Consumer) {
+    if (typeof consumer === 'undefined' || consumer === null) {
+      throw new FaultyEntityError('Consumer is undefined or null!');
     }
+  }
 
-    for (const product of this.shoppingCart) {
-      const order = this.createOrderToPostToAPI(product, consumer);
-      this.orderService.postEntityToAPI(order);
+  private throwFaultyEntityErrorIfShoppingCartIsUndefinedOrEmpty(shoppingCart: Product[]) {
+    if (typeof shoppingCart === 'undefined' || shoppingCart.length === 0) {
+      throw new FaultyEntityError('Shopping cart is undefined or empty!');
     }
   }
 }

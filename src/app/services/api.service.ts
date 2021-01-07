@@ -1,7 +1,9 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {BaseModel} from '../base.model';
 import {ApiCredentials} from './api-credentials';
+import {FaultyEntityError} from '../exception/FaultyEntityError';
+import {catchError} from 'rxjs/operators';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -31,27 +33,34 @@ export abstract class ApiService<T extends BaseModel> {
     return ApiService.API_ROOT + (path.startsWith('/') ? path.substr(1) : path);
   }
 
-  public getEntityFromAPI(id: number): Observable<T> {
-    return this.request('GET', this.PATH + id);
+  public tryToGetEntityFromAPI(id: number): Observable<T> {
+    return this.sendRequestToAPI('GET', this.PATH + id);
   }
 
-  public getAllEntitiesFromAPI(): Observable<T[]> {
-    return this.request('GET', this.PATH);
+  public tryToGetAllEntitiesFromAPI(): Observable<T[]> {
+    return this.sendRequestToAPI('GET', this.PATH);
   }
 
-  public postEntityToAPI(entity: T): Observable<T> {
-    return this.request('POST', this.PATH, entity);
+  public tryToPostEntityToAPI(entity: T): Observable<T> {
+    try {
+      return this.sendRequestToAPI('POST', this.PATH, entity);
+    } catch (FaultyEntityError) {
+      console.error(FaultyEntityError.message);
+    }
   }
 
   private throwErrorIfMethodIsPostOrPutAndBodyIsMissing<R = T>(method: RequestMethod, body?: R) {
     if ((method === 'POST' || method === 'PUT') && !body) {
-      throw new Error('Parameter body is required when using POST or PUT');
+      throw new FaultyEntityError('Parameter body is required when using POST or PUT');
     }
   }
 
-  protected request<R = T>(method: RequestMethod, path: string, body?: R): Observable<R> {
+  protected sendRequestToAPI<R = T>(method: RequestMethod, path: string, body?: R): Observable<R> {
     this.throwErrorIfMethodIsPostOrPutAndBodyIsMissing(method, body);
 
-    return this.http.request<R>(method, ApiService.buildPath(path), ApiService.buildHttpOptions({body}));
+    return this.http.request<R>(method, ApiService.buildPath(path), ApiService.buildHttpOptions({body}))
+      .pipe(catchError(error => {
+        return throwError(error.message);
+      }));
   }
 }

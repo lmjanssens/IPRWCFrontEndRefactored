@@ -17,7 +17,7 @@ export class ShoppingCartService {
     this.shoppingCart.next([...this.productsInCart, product]);
   }
 
-  public getProductsFromCart(): Observable<Product[]> {
+  public getShoppingCart(): Observable<Product[]> {
     return this.shoppingCart;
   }
 }

@@ -33,7 +33,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   fillShoppingCart() {
-    this.shoppingCartObservable = this.shoppingCartService.getProductsFromCart();
+    this.shoppingCartObservable = this.shoppingCartService.getShoppingCart();
     this.shoppingCartObservable.subscribe(products => this.shoppingCart = products);
 
     return this.shoppingCart;

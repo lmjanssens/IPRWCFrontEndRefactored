@@ -25,7 +25,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   private getProductFromAPI() {
-    this.productService.getEntityFromAPI(this.productId)
+    this.productService.tryToGetEntityFromAPI(this.productId)
       .subscribe(fetchedProduct => {
         this.product = fetchedProduct;
       });
