@@ -10,8 +10,8 @@ import {AuthService} from '../../services/auth.service';
 export class LoginComponent {
   public errorMessage = '';
   public showError = false;
-  username = '';
-  password = '';
+  public username = '';
+  public password = '';
 
   constructor(private router: Router, private authService: AuthService) {
   }
@@ -20,14 +20,22 @@ export class LoginComponent {
     try {
       await this.authService.verifyLogin(this.username, this.password);
       await this.router.navigate(['producten']);
-    } catch ({error}) {
+    } catch (FaultyLoginError) {
       this.showError = true;
-      console.warn(error.message);
-      this.errorMessage = error.message;
+      console.warn(FaultyLoginError.message);
+      this.errorMessage = FaultyLoginError.message;
       setTimeout(() => {
         this.showError = false;
         setTimeout(() => this.errorMessage = '', 250);
       }, 5000);
     }
+  }
+
+  private async tryToVerifyLogin() {
+    await this.authService.verifyLogin(this.username, this.password);
+  }
+
+  private async navigateUserToProductPage() {
+    await this.router.navigate(['producten']);
   }
 }

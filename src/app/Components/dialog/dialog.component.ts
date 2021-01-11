@@ -12,12 +12,11 @@ interface DialogData {
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent {
-  message: string;
-  title: string;
+  public message: string;
+  public title: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.message = data.message;
     this.title = data.title;
   }
-
 }

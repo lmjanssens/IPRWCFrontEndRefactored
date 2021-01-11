@@ -12,8 +12,8 @@ import {ProductComponent} from '../product.component';
   providers: [ShoppingCartComponent, ProductComponent]
 })
 export class ProductPageComponent implements OnInit {
-  @Input() product: Product;
-  productId: number;
+  @Input() public product: Product;
+  private productId: number;
 
   constructor(private productService: ProductService, private currentRoute: ActivatedRoute,
               private productComponent: ProductComponent) {

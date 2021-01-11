@@ -13,7 +13,7 @@ import {ProductService} from '../../services/product.service';
   providers: [ShoppingCartComponent]
 })
 export class ProductComponent implements OnInit {
-  products: Product[] = [];
+  public products: Product[] = [];
 
   constructor(private shoppingCartService: ShoppingCartService, private productAddedToShoppingCartConfirmationMessage: MatSnackBar,
               private productService: ProductService) {

@@ -14,15 +14,21 @@ export class AuthService {
 
   public verifyLogin(username: string, password: string) {
     const credentials = new ApiCredentials(username, password);
-    return new Promise((resolve, reject) => this.http.get(ApiService.API_ROOT + 'login', {
-      headers: new HttpHeaders({
-        'Authorization': credentials.toHeader(),
-      }),
-    }).subscribe(() => {
-      ApiService.credentials = credentials;
-      this.userIsAuthenticated = true;
-      resolve();
-    }, reject));
+
+    return new Promise((resolve, reject) =>
+      this.http.get(ApiService.API_ROOT + 'login', {
+        headers: new HttpHeaders({
+          'Authorization': credentials.toHeader(),
+        }),
+      }).subscribe(() => {
+        ApiService.credentials = credentials;
+        this.userIsAuthenticated = true;
+        resolve();
+      }, reject));
+    // .catch(error => {
+    //   error = new FaultyLoginError();
+    //   throwError(error.message);
+    // });
   }
 
   public checkIfUserIsAuthenticated() {

@@ -16,7 +16,7 @@ import {FaultyEntityError} from '../../exception/FaultyEntityError';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  shoppingCart: Product[] = [];
+  public shoppingCart: Product[] = [];
 
   constructor(private consumerService: ConsumerService, private orderService: OrderService,
               private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService,
@@ -66,6 +66,9 @@ export class CheckoutComponent implements OnInit {
 
     for (const product of this.shoppingCart) {
       const order = this.createOrderToPostToAPI(product, consumer);
+
+      // The order table in the database serves as a junction table, stemming from a many-to-many relationship;
+      // In other words: we need to post an order row for each product row.
       this.orderService.tryToPostEntityToAPI(order);
     }
   }

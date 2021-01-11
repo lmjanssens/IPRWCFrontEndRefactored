@@ -9,8 +9,8 @@ import {ShoppingCartComponent} from '../../shopping-cart/shopping-cart.component
   providers: [ShoppingCartComponent]
 })
 export class ProductPreviewComponent {
-  @Input() products: Product[];
-  @Output() whenProductAdded: EventEmitter<Product> = new EventEmitter();
+  @Input() public products: Product[];
+  @Output() public whenProductAdded: EventEmitter<Product> = new EventEmitter();
 
   constructor() {
   }

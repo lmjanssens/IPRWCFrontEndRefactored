@@ -10,12 +10,12 @@ import {Product} from '../../product/product.model';
   styleUrls: ['./checkout-stepper.component.css']
 })
 export class CheckoutStepperComponent implements OnInit {
-  consumersPersonalDetails: FormGroup;
-  consumersAddressDetails: FormGroup;
-  consumersFinancialDetails: FormGroup;
-  payingConsumer: Consumer = ConsumerService.createNew();
-  @Output() whenPayingConsumerCompletesPurchase: EventEmitter<Consumer> = new EventEmitter<Consumer>();
-  @Input() shoppingCart: Product[] = [];
+  public consumersPersonalDetails: FormGroup;
+  public consumersAddressDetails: FormGroup;
+  public consumersFinancialDetails: FormGroup;
+  public payingConsumer: Consumer = ConsumerService.createNew();
+  @Output() public whenPayingConsumerCompletesPurchase: EventEmitter<Consumer> = new EventEmitter<Consumer>();
+  @Input() public shoppingCart: Product[] = [];
 
   constructor(private formBuilder: FormBuilder) {
   }

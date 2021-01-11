@@ -49,14 +49,14 @@ export abstract class ApiService<T extends BaseModel> {
     }
   }
 
-  private throwErrorIfMethodIsPostOrPutAndBodyIsMissing<R = T>(method: RequestMethod, body?: R) {
-    if ((method === 'POST' || method === 'PUT') && !body) {
+  private throwErrorIfMethodIsPostAndBodyIsMissing<R = T>(method: RequestMethod, body?: R) {
+    if (method === 'POST' && !body) {
       throw new FaultyEntityError('Parameter body is required when using POST or PUT');
     }
   }
 
   protected sendRequestToAPI<R = T>(method: RequestMethod, path: string, body?: R): Observable<R> {
-    this.throwErrorIfMethodIsPostOrPutAndBodyIsMissing(method, body);
+    this.throwErrorIfMethodIsPostAndBodyIsMissing(method, body);
 
     return this.http.request<R>(method, ApiService.buildPath(path), ApiService.buildHttpOptions({body}))
       .pipe(catchError(error => {
