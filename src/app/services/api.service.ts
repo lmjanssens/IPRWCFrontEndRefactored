@@ -34,18 +34,26 @@ export abstract class ApiService<T extends BaseModel> {
   }
 
   public tryToGetEntityFromAPI(id: number): Observable<T> {
-    return this.sendRequestToAPI('GET', this.PATH + id);
+    try {
+      return this.sendRequestToAPI('GET', this.PATH + id);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   public tryToGetAllEntitiesFromAPI(): Observable<T[]> {
-    return this.sendRequestToAPI('GET', this.PATH);
+    try {
+      return this.sendRequestToAPI('GET', this.PATH);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   public tryToPostEntityToAPI(entity: T): Observable<T> {
     try {
       return this.sendRequestToAPI('POST', this.PATH, entity);
-    } catch (FaultyEntityError) {
-      console.error(FaultyEntityError.message);
+    } catch (error) {
+      console.error(error.message);
     }
   }
 

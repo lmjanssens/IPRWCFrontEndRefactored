@@ -7,7 +7,7 @@ import {ApiCredentials} from './api-credentials';
   providedIn: 'root',
 })
 export class AuthService {
-  userIsAuthenticated: boolean;
+  private userIsAuthenticated: boolean;
 
   constructor(private http: HttpClient) {
   }

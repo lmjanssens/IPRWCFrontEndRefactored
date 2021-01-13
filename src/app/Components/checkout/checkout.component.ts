@@ -43,25 +43,24 @@ export class CheckoutComponent implements OnInit {
     this.throwFaultyEntityErrorIfConsumerIsUndefinedOrNull(consumer);
 
     this.postConsumerToAPI(consumer);
-    this.showPurchaseConfirmationMessage();
   }
 
   private postConsumerToAPI(consumer: Consumer) {
     this.consumerService.tryToPostEntityToAPI(consumer).subscribe(
       (addedConsumer) => {
-        this.postOrderToAPI(addedConsumer);
+        this.postOrdersToAPI(addedConsumer);
       });
   }
 
-  private postOrderToAPI(consumer: Consumer) {
+  private postOrdersToAPI(consumer: Consumer) {
     try {
-      this.tryToPostOrderToAPI(consumer);
+      this.tryToPostOrdersToAPI(consumer);
     } catch (FaultyEntityError) {
       console.error(FaultyEntityError.message);
     }
   }
 
-  private tryToPostOrderToAPI(consumer: Consumer) {
+  private tryToPostOrdersToAPI(consumer: Consumer) {
     this.throwFaultyEntityErrorIfShoppingCartIsUndefinedOrEmpty(this.shoppingCart);
 
     for (const product of this.shoppingCart) {
@@ -71,6 +70,8 @@ export class CheckoutComponent implements OnInit {
       // In other words: we need to post an order row for each product row.
       this.orderService.tryToPostEntityToAPI(order);
     }
+
+    this.showPurchaseConfirmationMessage();
   }
 
   private showPurchaseConfirmationMessage() {

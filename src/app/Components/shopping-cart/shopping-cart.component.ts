@@ -39,16 +39,10 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   onProductRemoved(productToRemove: Product) {
-    const indexOfProductToRemove = this.getIndexOfProductToRemove(productToRemove);
-
-    this.showProductRemovedConfirmationDialog(indexOfProductToRemove);
+    this.showProductRemovedConfirmationDialog(productToRemove);
   }
 
-  getIndexOfProductToRemove(productToRemove: Product) {
-    return this.shoppingCart.indexOf(productToRemove);
-  }
-
-  showProductRemovedConfirmationDialog(indexOfProductToRemove: number) {
+  showProductRemovedConfirmationDialog(productToRemove: Product) {
     this.productRemovedConfirmationDialog.open(DialogComponent, {
       data: {
         title: 'Verwijder product',
@@ -60,7 +54,7 @@ export class ShoppingCartComponent implements OnInit {
       }
 
       this.showProductRemovedConfirmationMessage();
-      this.removeProductFromShoppingCart(indexOfProductToRemove);
+      this.removeProductFromShoppingCart(productToRemove);
     });
   }
 
@@ -68,11 +62,21 @@ export class ShoppingCartComponent implements OnInit {
     this.productRemovedConfirmationMessage.open('Product verwijderd!', undefined, {duration: 5000});
   }
 
-  removeProductFromShoppingCart(indexOfProductToRemove: number) {
-    if (indexOfProductToRemove !== -1) { // If item is not present, it will delete item at -1, the last item, we need to avoid that.
+  removeProductFromShoppingCart(productToRemove: Product) {
+    const indexOfProductToRemove = this.getIndexOfProductToRemove(productToRemove);
+
+    if (this.checkIfShoppingCartContainsSpecificProduct(productToRemove)) {
       this.shoppingCart.splice(indexOfProductToRemove, 1);
       this.setUpDataTable();
     }
+  }
+
+  getIndexOfProductToRemove(productToRemove: Product) {
+    return this.shoppingCart.indexOf(productToRemove);
+  }
+
+  checkIfShoppingCartContainsSpecificProduct(product: Product) {
+    return this.shoppingCart.indexOf(product) > -1;
   }
 
   calculateTotalOrderCost() {
@@ -83,7 +87,7 @@ export class ShoppingCartComponent implements OnInit {
     return this.totalOrderCost;
   }
 
-  shoppingCartContainsProducts() {
+  checkIfShoppingCartContainsAnyProducts() {
     return this.shoppingCart.length > 0;
   }
 }

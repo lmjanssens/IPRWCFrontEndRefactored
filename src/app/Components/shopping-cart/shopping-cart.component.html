@@ -26,6 +26,6 @@
 </table>
 <button
   mat-button style="background: blue; color: white; display: block;
-  margin: 20px auto;" routerLink="/afrekenen" [disabled]="!shoppingCartContainsProducts()">
+  margin: 20px auto;" routerLink="/afrekenen" [disabled]="!checkIfShoppingCartContainsAnyProducts()">
   Betalen
 </button>
