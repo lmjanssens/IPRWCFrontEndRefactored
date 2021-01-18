@@ -1,6 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Product} from '../product/product.model';
-import {Observable, of} from 'rxjs';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 import {MatDialog, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {DialogComponent} from '../dialog/dialog.component';
@@ -11,8 +10,7 @@ import {DialogComponent} from '../dialog/dialog.component';
   styleUrls: ['./shopping-cart.component.css'],
 })
 export class ShoppingCartComponent implements OnInit {
-  private shoppingCart: Product[] = [];
-  private shoppingCartObservable: Observable<Product[]> = of([]);
+  private productsInCart: Product[] = [];
   private totalOrderCost: 0;
   public shoppingCartTableColumns = ['name', 'price', 'delete'];
   public shoppingCartTableData: MatTableDataSource<Product>;
@@ -23,26 +21,15 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.shoppingCart = this.fillShoppingCart();
+    this.productsInCart = this.shoppingCartService.getProductsInShoppingCart();
     this.setUpDataTable();
   }
 
-  setUpDataTable() {
-    this.shoppingCartTableData = new MatTableDataSource<Product>(this.shoppingCart);
-  }
-
-  fillShoppingCart() {
-    this.shoppingCartObservable = this.shoppingCartService.getShoppingCart();
-    this.shoppingCartObservable.subscribe(products => this.shoppingCart = products);
-
-    return this.shoppingCart;
-  }
-
-  onProductRemoved(productToRemove: Product) {
+  public onProductRemoved(productToRemove: Product) {
     this.showProductRemovedConfirmationDialog(productToRemove);
   }
 
-  showProductRemovedConfirmationDialog(productToRemove: Product) {
+  private showProductRemovedConfirmationDialog(productToRemove: Product) {
     this.productRemovedConfirmationDialog.open(DialogComponent, {
       data: {
         title: 'Verwijder product',
@@ -58,36 +45,40 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  showProductRemovedConfirmationMessage() {
-    this.productRemovedConfirmationMessage.open('Product verwijderd!', undefined, {duration: 5000});
-  }
-
-  removeProductFromShoppingCart(productToRemove: Product) {
+  private removeProductFromShoppingCart(productToRemove: Product) {
     const indexOfProductToRemove = this.getIndexOfProductToRemove(productToRemove);
 
     if (this.checkIfShoppingCartContainsSpecificProduct(productToRemove)) {
-      this.shoppingCart.splice(indexOfProductToRemove, 1);
+      this.productsInCart.splice(indexOfProductToRemove, 1);
       this.setUpDataTable();
     }
   }
 
-  getIndexOfProductToRemove(productToRemove: Product) {
-    return this.shoppingCart.indexOf(productToRemove);
+  private setUpDataTable() {
+    this.shoppingCartTableData = new MatTableDataSource<Product>(this.productsInCart);
   }
 
-  checkIfShoppingCartContainsSpecificProduct(product: Product) {
-    return this.shoppingCart.indexOf(product) > -1;
+  private showProductRemovedConfirmationMessage() {
+    this.productRemovedConfirmationMessage.open('Product verwijderd!', undefined, {duration: 5000});
   }
 
-  calculateTotalOrderCost() {
-    for (const product of this.shoppingCart) {
+  private getIndexOfProductToRemove(productToRemove: Product) {
+    return this.productsInCart.indexOf(productToRemove);
+  }
+
+  private checkIfShoppingCartContainsSpecificProduct(product: Product) {
+    return this.productsInCart.indexOf(product) > -1;
+  }
+
+  public calculateTotalOrderCost() {
+    for (const product of this.productsInCart) {
       this.totalOrderCost += product.price;
     }
 
     return this.totalOrderCost;
   }
 
-  checkIfShoppingCartContainsAnyProducts() {
-    return this.shoppingCart.length > 0;
+  public checkIfShoppingCartContainsAnyProducts() {
+    return this.productsInCart.length > 0;
   }
 }

@@ -1,9 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import {BaseModel} from '../base.model';
 import {ApiCredentials} from './api-credentials';
 import {FaultyEntityError} from '../exception/FaultyEntityError';
-import {catchError} from 'rxjs/operators';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -12,10 +11,6 @@ export abstract class ApiService<T extends BaseModel> {
   private static _credentials: ApiCredentials = new ApiCredentials();
 
   protected constructor(protected http: HttpClient, protected PATH: string) {
-  }
-
-  static set credentials(apiCredentials: ApiCredentials) {
-    this._credentials = apiCredentials;
   }
 
   private static buildHttpOptions(options?: {}) {
@@ -34,19 +29,11 @@ export abstract class ApiService<T extends BaseModel> {
   }
 
   public tryToGetEntityFromAPI(id: number): Observable<T> {
-    try {
-      return this.sendRequestToAPI('GET', this.PATH + id);
-    } catch (error) {
-      console.error(error.message);
-    }
+    return this.sendRequestToAPI('GET', this.PATH + id);
   }
 
   public tryToGetAllEntitiesFromAPI(): Observable<T[]> {
-    try {
-      return this.sendRequestToAPI('GET', this.PATH);
-    } catch (error) {
-      console.error(error.message);
-    }
+    return this.sendRequestToAPI('GET', this.PATH);
   }
 
   public tryToPostEntityToAPI(entity: T): Observable<T> {
@@ -59,16 +46,17 @@ export abstract class ApiService<T extends BaseModel> {
 
   private throwErrorIfMethodIsPostAndBodyIsMissing<R = T>(method: RequestMethod, body?: R) {
     if (method === 'POST' && !body) {
-      throw new FaultyEntityError('Parameter body is required when using POST or PUT');
+      throw new FaultyEntityError('Parameter body is required when using POST');
     }
   }
 
   protected sendRequestToAPI<R = T>(method: RequestMethod, path: string, body?: R): Observable<R> {
     this.throwErrorIfMethodIsPostAndBodyIsMissing(method, body);
 
-    return this.http.request<R>(method, ApiService.buildPath(path), ApiService.buildHttpOptions({body}))
-      .pipe(catchError(error => {
-        return throwError(error.message);
-      }));
+    return this.http.request<R>(method, ApiService.buildPath(path), ApiService.buildHttpOptions({body}));
+  }
+
+  static set credentials(apiCredentials: ApiCredentials) {
+    this._credentials = apiCredentials;
   }
 }

@@ -12,23 +12,24 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
+  private static buildAuthorizationHeaders(credentials: ApiCredentials) {
+    return {
+      headers: new HttpHeaders({
+        'Authorization': credentials.toHeader(),
+      }),
+    };
+  }
+
   public verifyLogin(username: string, password: string) {
     const credentials = new ApiCredentials(username, password);
 
     return new Promise((resolve, reject) =>
-      this.http.get(ApiService.API_ROOT + 'login', {
-        headers: new HttpHeaders({
-          'Authorization': credentials.toHeader(),
-        }),
-      }).subscribe(() => {
-        ApiService.credentials = credentials;
-        this.userIsAuthenticated = true;
-        resolve();
-      }, reject));
-    // .catch(error => {
-    //   error = new FaultyLoginError();
-    //   throwError(error.message);
-    // });
+      this.http.get(ApiService.API_ROOT + 'login', AuthService.buildAuthorizationHeaders(credentials))
+        .subscribe(() => {
+          ApiService.credentials = credentials;
+          this.userIsAuthenticated = true;
+          resolve();
+        }, reject));
   }
 
   public checkIfUserIsAuthenticated() {

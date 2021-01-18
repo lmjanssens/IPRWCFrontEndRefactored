@@ -17,7 +17,7 @@ export class ProductPageComponent implements OnInit {
 
   constructor(private productService: ProductService, private currentRoute: ActivatedRoute,
               private productComponent: ProductComponent) {
-    this.productId = Number(this.currentRoute.snapshot.paramMap.get('productId'));
+    this.productId = this.setProductIdToRouteParam();
   }
 
   ngOnInit() {
@@ -29,6 +29,13 @@ export class ProductPageComponent implements OnInit {
       .subscribe(fetchedProduct => {
         this.product = fetchedProduct;
       });
+  }
+
+  private setProductIdToRouteParam() {
+    const currentRouteSnapshot = this.currentRoute.snapshot;
+    const currentRouteParamMap = currentRouteSnapshot.paramMap;
+
+    return Number(currentRouteParamMap.get('productId'));
   }
 
   public onAddToShoppingCart(product: Product) {

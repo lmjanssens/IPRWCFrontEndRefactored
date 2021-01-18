@@ -16,19 +16,24 @@ export class LoginComponent {
   constructor(private router: Router, private authService: AuthService) {
   }
 
-  public async loginButtonClicked() { // TODO: try catch refactor
+  public async onLoginButtonClicked() {
     try {
-      await this.authService.verifyLogin(this.username, this.password);
-      await this.router.navigate(['producten']);
-    } catch (FaultyLoginError) {
-      this.showError = true;
-      console.warn(FaultyLoginError.message);
-      this.errorMessage = FaultyLoginError.message;
-      setTimeout(() => {
-        this.showError = false;
-        setTimeout(() => this.errorMessage = '', 250);
-      }, 5000);
+      await this.tryToVerifyLogin();
+      await this.navigateUserToProductPage();
+    } catch (HttpErrorResponse) {
+      console.error(HttpErrorResponse.message);
+      this.displayErrorTimeoutMessage(HttpErrorResponse);
     }
+  }
+
+  private displayErrorTimeoutMessage(HttpErrorResponse) {
+    this.showError = true;
+    this.errorMessage = HttpErrorResponse.message;
+
+    setTimeout(() => {
+      this.showError = false;
+      setTimeout(() => this.errorMessage = '', 250);
+    }, 5000);
   }
 
   private async tryToVerifyLogin() {

@@ -12,9 +12,6 @@ export class ProductPreviewComponent {
   @Input() public products: Product[];
   @Output() public whenProductAdded: EventEmitter<Product> = new EventEmitter();
 
-  constructor() {
-  }
-
   public onAddToShoppingCart(product: Product) {
     this.whenProductAdded.emit(product);
   }
