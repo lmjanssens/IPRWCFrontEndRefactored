@@ -37,7 +37,7 @@ export class ShoppingCartComponent implements OnInit {
       },
     }).afterClosed().subscribe(userWantsToRemoveProduct => {
       if (userWantsToRemoveProduct !== true) {
-        return;
+        return; // We don't want to throw an exception here, because cancelling the dialog is valid.
       }
 
       this.showProductRemovedConfirmationMessage();
@@ -54,6 +54,14 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  public calculateTotalOrderCost() {
+    for (const product of this.productsInCart) {
+      this.totalOrderCost += product.price;
+    }
+
+    return this.totalOrderCost;
+  }
+
   private setUpDataTable() {
     this.shoppingCartTableData = new MatTableDataSource<Product>(this.productsInCart);
   }
@@ -68,14 +76,6 @@ export class ShoppingCartComponent implements OnInit {
 
   private checkIfShoppingCartContainsSpecificProduct(product: Product) {
     return this.productsInCart.indexOf(product) > -1;
-  }
-
-  public calculateTotalOrderCost() {
-    for (const product of this.productsInCart) {
-      this.totalOrderCost += product.price;
-    }
-
-    return this.totalOrderCost;
   }
 
   public checkIfShoppingCartContainsAnyProducts() {

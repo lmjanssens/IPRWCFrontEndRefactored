@@ -16,6 +16,22 @@ import {FaultyEntityError} from '../../exception/FaultyEntityError';
 export class CheckoutComponent implements OnInit {
   public productsInCart: Product[] = [];
 
+  private static throwFaultyEntityErrorIfConsumerIsUndefinedOrNull(consumer: Consumer) {
+    if (typeof consumer === 'undefined' || consumer === null) {
+      throw new FaultyEntityError('Consumer is undefined or null!');
+    }
+  }
+
+  private static throwFaultyEntityErrorIfShoppingCartIsUndefinedOrEmpty(shoppingCart: Product[]) {
+    if (typeof shoppingCart === 'undefined' || shoppingCart.length === 0) {
+      throw new FaultyEntityError('Shopping cart is undefined or empty!');
+    }
+  }
+
+  private static createOrderToPostToAPI(product: Product, consumer: Consumer): Order {
+    return {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
+  }
+
   constructor(private consumerService: ConsumerService, private orderService: OrderService,
               private purchaseConfirmationMessage: MatSnackBar, private shoppingCartService: ShoppingCartService) {
   }
@@ -33,7 +49,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   private confirmPurchase(consumer: Consumer) {
-    this.throwFaultyEntityErrorIfConsumerIsUndefinedOrNull(consumer);
+    CheckoutComponent.throwFaultyEntityErrorIfConsumerIsUndefinedOrNull(consumer);
 
     this.postConsumerToAPI(consumer);
   }
@@ -41,23 +57,23 @@ export class CheckoutComponent implements OnInit {
   private postConsumerToAPI(consumer: Consumer) {
     this.consumerService.tryToPostEntityToAPI(consumer).subscribe(
       (addedConsumer) => {
-        this.postOrdersToAPI(addedConsumer);
+        this.tryToPostOrdersToAPI(addedConsumer);
       });
   }
 
-  private postOrdersToAPI(consumer: Consumer) {
+  private tryToPostOrdersToAPI(consumer: Consumer) {
     try {
-      this.tryToPostOrdersToAPI(consumer);
+      this.postOrdersToAPI(consumer);
     } catch (FaultyEntityError) {
       console.error(FaultyEntityError.message);
     }
   }
 
-  private tryToPostOrdersToAPI(consumer: Consumer) {
-    this.throwFaultyEntityErrorIfShoppingCartIsUndefinedOrEmpty(this.productsInCart);
+  private postOrdersToAPI(consumer: Consumer) {
+    CheckoutComponent.throwFaultyEntityErrorIfShoppingCartIsUndefinedOrEmpty(this.productsInCart);
 
     for (const product of this.productsInCart) {
-      const order = this.createOrderToPostToAPI(product, consumer);
+      const order = CheckoutComponent.createOrderToPostToAPI(product, consumer);
 
       // The order table in the database serves as a junction table, stemming from a many-to-many relationship;
       // In other words: we need to post an order row for each product row.
@@ -67,23 +83,7 @@ export class CheckoutComponent implements OnInit {
     this.showPurchaseConfirmationMessage();
   }
 
-  private throwFaultyEntityErrorIfConsumerIsUndefinedOrNull(consumer: Consumer) {
-    if (typeof consumer === 'undefined' || consumer === null) {
-      throw new FaultyEntityError('Consumer is undefined or null!');
-    }
-  }
-
-  private throwFaultyEntityErrorIfShoppingCartIsUndefinedOrEmpty(shoppingCart: Product[]) {
-    if (typeof shoppingCart === 'undefined' || shoppingCart.length === 0) {
-      throw new FaultyEntityError('Shopping cart is undefined or empty!');
-    }
-  }
-
   private showPurchaseConfirmationMessage() {
     this.purchaseConfirmationMessage.open('Bestelling geplaatst!', undefined, {duration: 5000});
-  }
-
-  private createOrderToPostToAPI(product: Product, consumer: Consumer): Order {
-    return {consumerId: consumer.id, productId: product.id, productName: product.name} as Order;
   }
 }
